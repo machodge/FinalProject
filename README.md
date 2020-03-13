@@ -1,6 +1,6 @@
 # FinalProject
 
-Ahmadre Darrisow
+Ahmadre Darrisaw
 Jack Hutchins
 Thomas Leonard
 Nicholas Hodge
