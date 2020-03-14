@@ -18,8 +18,7 @@ bool itemInit(vector <Item> &v) {
         for (int i = 0; i < numModifiers; i++) {
             fin >> stat;
 
-            switch (stat)
-            {
+            switch (stat) {
             case "name": 
                 fin >> item.name;
                 break;
@@ -45,9 +44,12 @@ bool itemInit(vector <Item> &v) {
                 break;
             
             default:
+                return false;
                 break;
             }
+            
+            v.push_back(item);
         }
     }
-
+    return true;
 }
