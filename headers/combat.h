@@ -25,6 +25,12 @@ struct Attack{
 	string name;
 	int damage;
 
-}
+};
 
-struct 
+struct Item{
+
+};
+
+struct Weapon{
+
+};
