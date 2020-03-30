@@ -5,16 +5,16 @@ CPP= g++
 CPPFLAGS= -g -Wall -std=gnu++11
 
 obj/combat.o: src/combat.cpp $(HEADERS)
-	$(CPP) $(CPPFLAGS) -o $@ src/combat.cpp -I/headers $(HEADERS)
+	$(CPP) $(CPPFLAGS) -c -o $@ -Iheaders src/combat.cpp
 
 obj/inventory.o: src/inventory.cpp headers/inventory.h
-	$(CPP) $(CPPFLAGS) -o $@ src/inventory.cpp -I/headers inventory.h
+	$(CPP) $(CPPFLAGS) -c -o $@ -Iheaders src/inventory.cpp
 
 obj/room.o: src/room.cpp
-	$(CPP) $(CPPFLAGS) -o $@ src/room.cpp
+	$(CPP) $(CPPFLAGS) -c -o $@ src/room.cpp
 
 obj/main.o: src/main.cpp 
-	$(CPP) $(CPPFLAGS) -o $@ src/main.cpp
+	$(CPP) $(CPPFLAGS) -c -o $@ src/main.cpp
 	
 game : $(OBJ) 
 	$(CPP) $(CPPFLAGS) -o $@ $(OBJ)

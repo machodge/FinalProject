@@ -3,6 +3,10 @@
 
 using namespace std;
 
+void playerTurn();
+
+void enemyTurn(Enemy &e);
+
 //make combat a bool that will return false once it is over.
 bool combat(Player &player, vector <Enemy> enemies){
 
@@ -54,7 +58,7 @@ bool combat(Player &player, vector <Enemy> enemies){
 
 		for(size_t i = 0; i < enemies.size(); i++){
 
-			if(enemies[i].health > 0){
+			if(enemies[i].hp > 0){
 
 				enemyTurn(enemies[i]);
 
