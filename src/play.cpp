@@ -94,7 +94,14 @@ int main(int argc, char *argv[])
 			cd = "NG";
 		}
 		else
-			ss >> gs >> cf >> row >> col >> d; 
+		{
+			ss >> gs >> cf >> row >> col >> d;
+			getline(fin, line);
+		    ss.clear();
+	        ss.str(line);
+		    ss >> p->Courage >> p->Willpower >> p->Strength >> p->Agility >> p->Accuracy >> p->Defense
+			   >> p->BoneSaw >> p->Scythe >> p->DOG >> p->Scalpel;
+		}
 	}
     
 	if(cd == "NG")
@@ -259,6 +266,11 @@ int main(int argc, char *argv[])
 			break;
 		else if(f[i][j]->actions.find(line) != f[i][j]->actions.end())
 		{
+			if((i == 1)&&(j == 0)&&(d == 0))
+			{
+				slow_print("I have to find my family.\n\n", 30);
+				d++;
+			}
 			sit = f[i][j]->actions.find(line);
 			if((sit->second->check)&&(sit->second->item != "None"))
 				slow_print("Action already explored.\n\n", 30);
