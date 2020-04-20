@@ -1,192 +1,468 @@
-1 S
-1 qw
-2 Search-Dresser Look-out-window
-Room 201: The room is cold and dimly lit, there is a dresser to the right and a window to the left. You can hear faint mumblings from the room next door.
-1 S
-1 qw
-1 Search-Room 
+0 1 0 0 0
+0 100 0 0 0 0 0 0 0 0
+1 1 S 2
+0 8 Search-Dresser None 
+You find a key with a note attached to it.
+0 -1 Look-out-window None
+It is dark outside, all you see in the distance are the rough outlines of trees.
+Room 201: The room is cold and dimly lit, there is a dresser to the left and a window to the right. You can hear faint mumblings from the room next door.
+1 1 S 1
+0 -1 Search-Room Courage
+You found courage, you can use this to increase your willpower(hp).  
 Room 203: There's been a struggle in this room. The bed is a mess and the dresser is knocked over. "I'd hate to know what happened here."
-1 S
-1 qw
-3 Search-Dresser Look-out-window Search-Cabinet
+0 1 S 3
+0 -1 Search-Dresser Fear
+You found fear, agility increased!
+0 -1 Look-out-window None
+"The tree line seems to be moving closer, or am I moving closer? Marching willows?"
+0 -1 Search-Cabinet Harvester's-Scythe 
+You found the Havester's Scythe, it curses you with the urge to collect souls. This weapon has high accuracy and medium strength.
 Room 205: This room looks normal, is has a dresser to your left and a cabinet to your right with a white bed lying in between.   
-1 S
-1 None
-1 None
+0 1 S 1
+0 -1 Descend-Stairs None
+You descend the stairs and are now on floor one.
 A stiarwell that leads to a lower floor.
-1 S
-1 qw
-2 Look-out-window Listen
+1 1 S 2
+0 -1 Look-out-window None
+"There's nothing but darkness outside this window."
+0 -1 Listen None
+"You can hear the lingering sound of autopsy saws and screams."
 Examination Room 1: This room smells of iron. There's an operation table in the middle and stains on the walls. "Is this where they test on people? I need to get out of here."
-1 S
-1 qw
-2 Search-Cabinet Draw-on-sign
-Examination Room 2: It feels gloomy in here. There is a cabinet and on the wall is a sign that reads "On a scale of 1 to 10, how do you feel today?". The worst option is marked.
-1 S
-1 qw
-2 Search-Room Pull-object-out-of-wall
+1 1 S 2
+0 -1 Search-Cabinet Stability
+You found stability, defense increased! 
+0 -1 Draw-on-sign None
+You erase 10(Worst Pain Possible) and mark 0(No Pain) but when you look back, the sign is the same as before.
+Examination Room 2: It feels dead in here. There is a cabinet and on the wall is a pain scale chart. Option 10(Worst Pain Possible) is marked.
+0 1 S 2
+0 -1 Search-Room Paranoia
+You found paranoia, accuracy increased!
+0 -1 Extract-Object Old-Spaniard's-Scalpel
+You found the Old Spaniard's Scalpel. This weapon has high agility, medium accuracy, and medium strength. 
 Examination Room 3: There objects stuck in the ceiling and walls. The room is a mess. 
-1 S 
-1 qw
-3 Look-out-window Search-Cabinet Search-Dresser
-Examination Room 4: This room... actually looks normal. There is a cabinet, a dresser, and a window.
-3 N S E
-1 qw
-2 Look-out-window Look-down-hallway
+1 1 S 3 
+0 -1 Look-out-window None
+"The tree's sway back in forth in the wind. Are they mocking me?" 
+0 -1 Search-Cabinet None
+You found a torn diary page.\n“April 04: Today me and daddy went to get ice cream. Mom was too busy to come but me and daddy\nstill had fun. A mean doggy tried to eat me but daddy saved me. It was scary. I hope we do\nsomthing fun agin tomorrow.”
+0 17 Search-Dresser None
+You found a key, room 204 is now accessible.
+Examination Room 4: This room... actually looks normal. There is a cabinet, a dresser, an examination bed, and a window.
+0 3 N S E 2
+0 -1 Look-out-window None
+"The trees are actually calming. It's like they're urging me to come and join them. I have to get out. I have to find my family."
+0 -1 Look-down-hallway None
+The hallway seems to stretch on endlessly with only the illumination of another window to guide me.
 You are in a long, dark, hallway. Near you are rooms 201(your room) and 202, behind you is a window.
-4 N S W E
-1 qw
-1 Look-down-hallway
+1 4 N S W E 1
+0 -1 Look-down-hallway None
+The window seems to pull away the closer I get. Am I not worthy of the light you cast?
 You are in a long, dark, hallway. Near you are rooms 203 and 204. Behind you are rooms 201 and 202.
-4 N S W E
-1 qw
-1 Look-down-hallway
+1 4 N S W E 1
+0 -1 Look-down-hallway None
+That window! Ohhhh that window. It's toying with me isn't it?
 You are in a long, dark, hallway. Near you are rooms 205 and 206. Behind you are rooms 203 and 204.
-4 N S W E
-1 qw
-2 Look-down-hallway Look-right
+1 4 N S W E 2
+0 -1 Look-down-hallway None
+I think I've somewhat come to understand this window. It's not that it's running away from me, but that in my longing to look out of it, I've come to dread what I might see. 
+0 -1 Look-right None
+There's a stairwell at the end of that hallway. I wonder what secrets it holds.
 You are in a long, dark, hallway. Near you is a stairwell and another hallway. Behind you are rooms 205 and 206.
-3 N W E
-1 qw
-2 Look-down-hallway Look-at-painting
+1 3 N W E 2
+0 -1 Look-down-hallway None
+Oh window, it's okay. I'll accept whatever it is you have to show me. I'm not gonna run away anymore. 
+0 -1 Look-at-painting Paranoia
+I don't like the way this painting is staring at me.\nYou found paranoia, accuracy increased!
 You are in a long, dark, hallway. Near you is Examination Room 1 and a painting of a middle-aged man. Behind you is a stairwell and a hallway.
-4 N S W E 
-1 qw
-1 Look-down-hallway
+1 4 N S W E 1
+0 -1 Look-down-hallway None
+Window, soon you'll come to understand me too. You'll see that I can be gentle.
 You are in a long, dark, hallway. Near you is Examination Room 2 and a girls bathroom and showers. Behind you is Examination Room 1.
-4 N S W E 
-1 qw
-1 Look-down-hallway
+1 4 N S W E 1 
+0 -1 Look-down-hallway None
+It won't be long til I'm gazing out of you and you're gazing into me.
 You are in a long, dark, hallway. Near you is Examination Room 3 and a boys bathroom and showers. Behind you is Examination Room 2 and a girls bathroom and showers.
-2 N W 
-1 qw 
-2 Look-out-window Search-Dresser
+1 2 N W 2
+0 -1 Look-out-window None
+"The trees are dancing in the wind. I'm happy to see y'all too."
+0 -1 Search-Dresser Delusion
+You found delusion, strength increased!
 You are in a long, dark, hallway. Near you is Examination Room 4, a dresser, and a window. Behind you is Examination Room 3 and a boys bathroom and showers.
-1 N
-1 qw
-2 Talk-to-the-man Search-Room
+0 1 N 2
+0 26 Talk-to-the-man None
+“I didn’t do it, I didn’t do it, I didn’t do it, I didn’t do it, I didn’t do it, I didn’t do it! But if I did do it, they’d\nknow. Oh-ho-ho, they’d know alright. They’d know what I cannot know which makes them the\nthing that’ll break me. So, will they break me? Will they break you? Find your truth.”
+0 -1 Search-Room None
+You found a torn diary page.\n“April 21: I wonder if mommy and daddy will be happy agin. They hav been fighting a lot. They where just\nfighting but now mommy is quiet. Daddy is still talking. Hes saying he didnt do it. I hope he didnt\ndo to mommy what he did to that dog. It sounds like hes coming. No matter what I\nlove my daddy verrrryyy mu- “
 Room 202: All the furniture's pushed to one side and there's a man mumbling to himself in the corner. "What is he talking about?"
-1 N
-1 qw
-2 Try-light-switch Touch-the-floor
+0 1 N 3
+0 3 Try-light-switch None
+There is a key hanging from the light switch, stairwells are now accessible. 
+0 -1 Touch-the-floor Fear
+You found fear, agility increased!
+0 -1 Search-Room None
+You found a torn diary page.\n“April 11: Mommy still won’t come out with me and daddy. She says I shouldn't either but why not? Daddy\nis scary at times but he’s nice, he loves us verrrryyy much. Mommy must just be tired from\n work. I brought her a gift back, she was happy.”
 Room 204: The lights are out in this room, I can't see a thing but the floor seems wet. 
-1 N 
-1 qw
-2 Examine-poster Check-behind-poster
+1 1 N 2 
+0 -1 Examine-poster None 
+Wow, if ever I were to hide something.
+0 6 Check-behind-poster None
+You found a key, examination room 3 is now accessible.
 Room 206: The room looks normal except there's a large poster on the wall behind the bed.
-2 N S
-1 qw
-1 Look-down-hallway
-You are in a dim hallway, behind you are stairs.
-2 S E
-1 qw
-3 Turn-on-sink Check-trashcan Read-Writing
+1 2 N S 1
+0 -1 Look-down-hallway None
+Ahhh stairwell, now it's just me and you. 
+You are in a dim hallway, behind you is a stairwell.
+1 2 S E 3
+0 -1 Turn-on-sink None
+Nothing comes out, the sink doesn't work. 
+0 -1 Check-Trashcan Stability
+You found stability, defense increased!
+0 -1 Read-Writing None
+The mirror reads "You know what you did!" in jagged letters. 
 Girls B/R: The sinks look normal but the mirror above them is cracked. There's also red writing on in, could it be lipstick? Near you are the showers and bathroom stalls.
-3 N S W
-1 qw
-1 Look-at-bathroom
+1 3 N S W 1
+0 -1 Look-at-bathroom None
+The bathroom has showers, 2 stalls, and sinks. Everything an imprisoned person needs!
 Girls B/R: You are at the enterance of the girls bathroom, doesn't it feel wrong for you to be here?
-3 N S E
-1 qw
-1 Look-at-bathroom
+1 3 N S E 1
+0 -1 Look-at-bathroom None
+The bathroom has damaged showers, 2 broken stalls, and dirty sinks. Everything an imprisoned person deserves! 
 Boys B/R: You are at the enterance of the boys bathroom, something smells fowl.
-2 S W
-1 qw
-2 Check-Sink Check-Trashcan
+1 2 S W 2
+0 -1 Check-Sink Delusion
+You found delusion, strength increased!
+0 -1 Check-Trashcan None
+The trashcan is empty but hey, look at the bright side, your hands are dirty now.
 Boys B/R: The sinks are dirty and filled with a dark liquid, it's spilling down the sides. Near you are the showers and bathroom stalls.
-2 S E
-1 qw
-2 Read-Nameplate Search-Desk
+1 2 S E 2
+0 -1 Read-Nameplate None
+The nameplate reads "Dr. Alexander J. Graham". 
+0 -1 Search-Desk None
+You found the doctor's notebook./n“Alan Brown truly is an interesting subject. I’ve never seen anything like his condition. Schizophrenia\ndeveloping into psychosis is common but such a severe case of it is truly remarkable. He\nsomehow keeps finding a way out of his room at night, during that time though he constantly fights\nthe air and murmurs to himself. Sometimes he’ll invade the other patient’s rooms, but he\ndoesn’t even see them, he completely looks through them at something else. Of course, before day\nbreaks, I find him, sedate him, and take him back to his room. I know what I’m doing is widely\nconsidered malpractice, but I believe he’s truly close to seeing past his delusions. I predict if he\nstays on his current path he might come to peace with his demons and cure himself, so for now, I’ll\njust keep observing him. One thing that continues to shock me however is the fact that he has\nenough courage to keep looking at that picture of his family, he cries every time.”
 Doctors Office: There is a desk with a nameplate on it. Near you are filing cabinets and another desk.
-3 S W E 
-1 qw
-2 Read-Nameplate Search-Desk
-Doctors Office: There is a dusty desk with a nameplate on it. Near is another desk and the enterance.
-3 S W E
-1 qw
-2 Search-Plant Look-at-office
+1 3 S W E 2 
+0 -1 Read-Nameplate None
+The nameplate reads "Dr. Richard R. Doyle". 
+0 -1 Search-Desk None
+You found the doctor's notebook.\n“Dr. Graham has lost his damn mind, his fixation with that patient is going to be our downfall. Honestly, I\ndon’t care if the fool gets himself killed believing in a delusional man, but I will not die with him. Ever\nsince his failure a couple of years back he’s been dead set on rehabilitating a patient who’s past\nfar beyond the walls of sanity. The fool truly believes he can do it too. If this gets too out of hand,\nI’ll put an end to it and call the cops on both, the fool and his broken toy.”
+Doctors Office: There is a dusty desk with a nameplate on it. Near you is another desk and the enterance.
+0 3 S W E 2
+0 -1 Search-Plant None
+The plant seems healthy, not sure why it matters though. 
+0 -1 Look-at-office None
+The office is pretty spacious, desks, filing cabinets, and even a couch for patient consultation!
 Doctors Office: You are at the enterance to the doctors office, finally. There is a plant next to you.
-3 N S W
-1 qw
-3 Look-down-hallway Look-at-door Search-Plant
+1 3 N S W 3
+0 -1 Look-down-hallway None
+Don't think you're getting out of this stairwell, I will descend you! 
+0 -1 Look-at-door None
+This door leads to the doctors office. 
+0 -1 Search-Plant Courage
+The plant has smuggled goods!\nYou found courage, you can use this to increase your willpower(hp).
 You are in a dim hallway, next to you is a plant. Near you is the doctors office.
-2 N E
-1 qw
-1 Take-Shower 
+1 2 N E 1
+0 -1 Take-Shower Courage
+You really are a sicko huh? Here's some courage for your effort.\nYou found courage, you can use this to increase your willpower(hp).
 Girls B/R: The showers are well kept. Near you are sinks and bathroom stalls.
-2 N W
-1 qw
-2 Search-Stall-1 Search-Stall-2
+1 2 N W 2
+0 -1 Search-Stall-1 Courage
+You found courage, you can use this to increase your willpower(hp).
+0 -1 Search-Stall-2 None
+You found nothing, shamelessness increased!
 Girls B/R: There are two stalls in front of you. Near you are sinks and showers.
-2 N E
-1 qw
-2 Read-Note Turn-on-shower
+1 2 N E 2
+0 -1 Read-Note Stability
+"The smell was Tom."\nThe note reasures you.\nYou found stability, defense increased! 
+0 -1 Turn-on-shower None
+Nothing comes out but the showers make a hissing noise.
 Boys B/R: The showers are banged up and there is a note on the ground. Near you are sinks and bathroom stalls.
-2 N W
-1 qw
-1 Search-Stalls
+1 2 N W 1
+0 -1 Search-Stalls Courage
+Nothing phases you, huh?\nYou found courage, you can use this to increase your willpower(hp).
 Boys B/R: There are two stalls in front of you. The door on one is smashed in and the other appears to lean a little from the impact.
-3 N S E 
-1 qw
-1 Search-Cabinet
+1 3 N S E 1
+0 -1 Search-Cabinet None
+This cabinet doesn't appear to have anything on you in it. 
 Doctors Office: There is a filing cabinet before you, it may conatin information about your situation. Near you is a desk and another filing cabinet.
-4 N S W E
-1 qw
-1 Look-at-office
+1 4 N S W E 1
+0 -1 Look-at-office None
+So this is where the magic happens huh?
 Doctors Office: Your are in the middle of the office standing on a fancy rug. Near you is a desk, a painting, a filing cabinet, and the enterance.
-4 N S W E
-1 qw
-2 Look-at-office Search-Plant
+0 4 N S W E 2
+0 -1 Look-at-office None
+The office is pretty spacious, desks, filing cabinets, and even a couch for patient consultation(how thoughtful)! 
+0 -1 Search-Plant None
+The plant is pretty healty, not sure why you care though.
 Doctors Office: You are at the enterance to the doctors office, finally. There is a plant next to you.
-4 N S W E
-1 qw
-2 Look-down-hallway Look-at-door
+1 4 N S W E 2
+0 -1 Look-down-hallway None
+Just one more step and it'll be too late stairwell!
+0 -1 Look-at-door None
+This door leads to the doctors office.
 You are in a dim hallway. Near you is a stairwell and the doctors office.
-2 W E
-1 qw
-1 Look-down-hallway
+1 2 W E 1
+0 -1 Look-down-hallway None
+This window doesn't seem like any fun but I guess I'll play along.
 You are in a degraded hallway.
-3 S W E
-1 qw
-1 Look-down-hallway
+1 3 S W E 1
+0 -1 Look-down-hallway None
+Here we are window, what's it gonna be? You know there's no where for you to run.
 You are in a degraded hallway. Near you is the recreation room.
-3 S W E
-1 qw
-1 Look-down-hallway
+1 3 S W E 1
+0 -1 Look-down-hallway None
+So that's your decision? Don't say I didn't warn you.
 You are in a degraded hallway. Near you is the recreation room.
-1 W
-1 qw
-1 Look-out-window
+1 1 W 1
+0 -1 Look-out-window None
+"The trees, I see you guys are doing well too. I'll join you soon."
 You are in a degraded hallway. Infornt of you is a window. Behind you is the recreation room.
-2 N E
-1 qw
-1 Search-Cabinet
+1 2 N E 1
+0 -1 Search-Cabinet None
+End-game-note
 Doctors Office: There is a filing cabinet before you, it may contain information about your situation. Near you is another filing cabinet and a painting.
-3 N W E
-1 qw
-1 Look-at-painting
+1 3 N W E 1
+0 -1 Look-at-painting None
+This guy again?
 Doctors Office: There is a painting of a middle aged man in front of you. Near you is the patient area, the center of the room, and a filing cabinet.
-2 N W
-1 qw
-1 Complain-about-problems
-Doctors Office: Two chairs facing each other is in front of you. It looks like this is where the doctor discusses things with his patients. Near you is a painting and the enterance.
-1 N
-1 None
-1 None
+1 2 N W 1
+0 -1 Complain-about-problems None
+No one is around to hear you, but that hasn't stopped you before.
+Doctors Office: A chair and a couch facing each other is in front of you. It looks like this is where the doctor discusses things with his patients. Near you is a painting and the enterance.
+0 1 N 1
+0 -1 Descend-Stairs None
+You descend the stairs and are now on floor one.
 A stairwell that leads to a lower floor.
-1 E 
-1 qw
-1 Turn-off-tv
+1 1 E 1 
+0 -1 Turn-off-tv Courage
+The T.V. isn't plugged in, but here's some courage.\nYou found courage, you can use this to increase your willpower(hp). 
 Recreation Room: The T.V. is sideways on the ground, displaying flickering static. Near you are spectators.
-3 N W E
-1 qw
-2 Talk Talk?
+1 3 N W E 2
+0 -1 Talk Courage
+They don't respond.\nYou found courage, you can use this to increase your willpower(hp). 
+0 -1 Talk? Delusion
+They look at you and hiss.\nYou found delusion, strength increased!
 Recreation Room: Two people are sitting on a couch, staring at a TV. Their faces are peeling. Near you is a TV and a table.
-3 N W E
-1 qw
-2 Make-a-move Sit-Down
+1 3 N W E 2
+0 -1 Make-a-move None
+You move a piece but it moves back. 
+0 -1 Sit-Down None
+What a load off!
 Recreation Room: There is a table with a board game on it, two chairs are pulled up on either side. Near you are spectators and a counter.
-1 W
-1 qw
-2 Look-at-snacks Search-Trash
-Recreation Room: A counter with snacks on it is in front of you. Next to it is a trashcan. Near you is a table. 
+1 1 W 2
+0 -1 Look-at-snacks None
+Those look good. 
+0 -1 Search-Trash Stability
+You found stability, defense increased!
+Recreation Room: A counter with snacks on it is in front of you. Next to it is a trashcan. Near you is a table.
+1 1 S 1
+0 46 Search-Cabinet None
+You found a key, isolation room 3 is now accessible.
+Reception Desk: You are in front of a filing cabinet. Near you is a chair.
+1 2 S E 1
+0 -1 Look-out-door
+"They're everywhere out there... looking in at me... licking their lips. I can't leave this way. It'd be suicide!"
+Building Enterance: You are at the front door to the building. Near you is the reception desk.
+1 3 S W E 1
+0 -1 Look-out-door
+"Look at them mocking me. Don't worry, I'll get stronger! Then, I'll mock you!"
+Building Enterance: You are at the front door to the building. Near you is a stairwell.
+1 2 S W 1
+0 -1 Ascend-Stairs None
+You ascend the stairs and are now on floor two.
+A stairwell that leads to a higher floor.
+1 2 S E 2
+0 7 Check-Cabinets None
+You hungry? Here, have this key. Go make yourself something nice!\nYou found a key, kitchen is now accessible.
+0 -1 Ponder-glass-fullness
+What. The HECK. Are you doing?
+Recreation Room: Before you is a counter with a half empty glass of water sitting on it and some cabinets. Near you is a pool table.
+1 1 W 2
+0 -1 Play-Pool None
+Really? How you gonna manage that?
+0 -1 Check-ball-return Paranoia
+You found paranoia, accuracy increased!
+Recreation Room: The pool table is lying on the ground with a leg broken off of it. The pool stick is stabbed right through the center of the table. Near you is a counter.
+1 2 S E 2
+0 -1 Sit-at-table Courage
+Eating alone huh? That takes some courage!\nYou found courage, you can use this to increase your willpower(hp).
+0 -1 Look-at-door None
+A door that leads to the kitchen.
+Cafeteria: There's a lone table in front of the kitchen door. Near you is the enterance. 
+0 2 W E 1
+0 -1 Smell None
+You take a deep breath and gag. Nothing in here smells appetizing.
+Kitchen: The kitchen is a mess. The sinks are full, the floor is dirty and there's an afwul odor coming from the back. Near you is the cafeteria.
+1 2 N S 1
+0 -1 Sit-in-chair Stability
+This chair has pretty good stability.\nYou found stability, strength increased!
+Reception Desk: There is a chair in front of you. Near you is a filing cabinet.
+1 3 N S E 1
+0 -1 Look-Around None
+You are close to the enterance, waiting area, and reception desk.
+You are in an open area near the enterance.
+1 4 N S W E 1
+0 -1 Look-Around None
+You are close to the enterance, a stairwell, and the waiting area.
+You are in an open area near the enterance.
+1 4 N S W E 1
+0 -1 Look-Around None
+You are close to a stairwell, the recreation room, and the enterance.
+You are in an open area near a stairwell.
+1 4 N S W E 1
+0 -1 Look-Around None
+You are close to the recreation room, a stairwell, and the cafeteria.
+You are in an open area near the recreation room.
+1 3 S W E 1
+0 -1 Look-Around None
+You are close to the cafeteria and the recreation room.
+You are in an open area near the cafeteria.
+1 3 N S W 1
+0 -1 Check-out-menu Fear
+Oooo! Today's menu is(pause)... Dear god...\nYou found fear, agility increased!
+Cafeteria: The cafeteria is completely empty except for one table. In front of you is the menu. Near you is a table.
+1 2 N S 1
+0 -1 Search-Sink Courage
+You found courage, you can use this to increase your willpower(hp).
+Kitchen: You are in front of a sink clogged with thick red liquid. The smell is getting stronger. Near you is the enterance.
+1 2 N S 0
+Reception Desk: The reception desk is pretty long, huh? Near you is a chair and drawers.
+1 3 N S E 1
+0 -1 Look-Around None
+You are close to the waiting area, reception desk, and enterance.
+You are in an open area near the waiting area.
+1 4 N S W E 1
+0 -1 Look-Around None
+You are close to the waiting area, reception desk, and enterance.
+You are in an open area near the waiting area.
+1 4 N S W E 1
+0 -1 Look-Around None
+You are close to the waiting area, a stairwell, and the recreation room.
+You are in an open area. There's a soft breeze.
+1 4 N S W E 1
+0 -1 Look-Around None
+A lot of open area around here, huh? It's almost as if the game creators... Nah! It couldn't be!
+You are in an open area. 
+1 4 N S W E 1
+0 -1 Look-Around None
+You are close to the cafeteria and recreation room.
+You are in an open area near the cafeteria.
+1 2 N W 1
+0 -1 Reminisce None
+"I don't feel the same excitment coming here as I did when I was a kid. I guess the fact that it was in a school changes things?"
+Cafeteria: The cafeteria smells like pre-chewed lunch.
+1 1 N 2
+0 -1 Take-bone-saw Accomplice's-Bone-Saw
+You found the Accomplices's Bone Saw, perfect for cutting down colleagues. This weapon has high strength and small agility.
+0 -1 Look-at-body Fear
+You found fear, agility increased!
+Kitchen: In front of you is a body wearing a white coat. There is a bone saw halfway through its neck.
+1 2 N S 2
+0 31 Search-Drawer-1 None
+You found a key, the morgue is now accessible.
+0 -1 Search-Drawer-2 None
+You found a torn diary page.\n“April 15: Mommy says we hav to go far away. She says daddy is not himself. She says its not safe but if\nwe leave daddy he will be lonely. Daddy tells me he doz not want to be lonely. He says we will be\nto-get-her forevr no matter what. I belive in daddy!”
+Reception Desk: The desk has a part in between work areas for files. There are two drawers. Near you is a chair.
+1 3 N S E 2
+0 -1 Look-underneath-chairs Paranoia
+You found paranoia, accuracy increased!
+0 -1 Look-at-area None
+Looks like business is booming.
+Waiting Area: There are some chairs to wait on. Near you are magazines and a couch.
+1 4 N S W E 2
+0 -1 Read-Magazine Delusion
+You found delusion, strength increased!
+0 -1 Look-at-area None
+It's so empty here, I'm surprised they haven't called my name yet. What's the hold up!
+Waiting Area: Magazines liter a small table, they don't look particularly interesting. Near you are chairs and a T.V.
+1 4 N S W E 1
+0 -1 Look-Around None
+The waiting area seems welcoming. Ish.
+You are in an open area near the waiting area.
+1 4 N S W E 1
+0 -1 Look-Around None
+You are close to isolation room 1.
+You are in an open area.
+1 4 N S W E 1
+0 -1 Look-Around None
+You are close to isolation room 2.
+You are in an open area.
+1 3 S W E 1
+0 -1 Look-Around None
+You are close to isolation room 3 and the morgue.
+You are in an open area near the morgue.
+0 2 S W 2
+0 -1 Open-body-drawer Delusion
+You open the drawer to see your wife, her head bashed in.\nYou find delusion, strength increased!
+0 -1 Look-at-room None
+The room is small with only two body trays...
+Morgue: The room reeks of rotting flesh and the back light it out. The wall has body trays and there's an autopsy table in the back.
+1 2 N S 1
+0 -1 Sit-in-chair None
+"I'm not tired, thank you though."
+Reception Desk: The is a chair and a work area in front of you. Near you are drawers and the enterance.
+1 3 N S E 1
+0 -1 Look-between-cushions Courage
+You found courage, you can use this to increase your willpower(hp).
+Waiting Area: A worn out couch is in front of you. Near you are chairs and a T.V.
+1 4 N S W E 2
+0 -1 Watch-TV None
+The T.V. displays static. Sweet! Your favorite!
+0 2 Check-Table None
+You found a key, room 205 is now accessible.
+Waiting Area: A T.V. is sitting on a small table. Quality.
+1 4 N S W E 1
+0 -1 Look-Around None
+You are close to a stairwell and the waiting area.
+You are in an open area near the stairwell.
+1 4 N S W E 2
+0 -1 Look-Around None
+You are close to isolation room 1 and a stairwell.
+0 -1 Listen None
+"Don't think you can run. I know, you know. You know what you did! You know, you know! I can hear it."
+You are in an open area near isolation room 1.
+1 4 N S W E 2
+0 -1 Look-Around None
+You are close to isolation room 1 and 3.
+0 -1 Listen None
+There's a constant thumping noise coming from inside.
+You are in an open area near isolation room 2.
+1 4 N S W E 2
+0 -1 Look-Around None
+You are close to isolation room 2 and the morgue.
+0 -1 Listen None
+It's quiet.
+You are in an open area near isolation room 3 and the morgue.
+0 3 N S W 1
+0 16 Open-body-drawer None
+You found a key, room 302 is now accessible.
+Morgue: The floors are stained with blood and the walls with ash.
+1 2 N E 1
+0 -1 Search-Plant Paranoia
+You found paranoia, accuracy increased!
+Reception Desk: You are at the enterance to the reception desk. There is a plant next to you.
+1 3 N W E 1
+0 -1 Look-at-door None
+It's a gate that opens upwards to let people in. It leads to the reception desk.
+Waiting Area: You are near the enterance to the reception desk.
+1 3 N W E 1
+0 -1 Look-Around None
+There is a T.V. and a couch near you.
+Waiting Area: You are in a walkway that leads to the reception desk.
+1 2 N W 1
+0 -1 Ascend-Stairs None
+You ascend the stairs and are now on floor two.
+A stairwell that leads to a higher floor.
+0 1 N 0
+None
+0 1 N 0
+None
+0 1 N 1
+0 -1 Search-Room Delusion-Of-Grandeur
+You found the Delusion Of Grandeur, an impenetrable bubble where those things can't touch you. This weapon has high defense, small agility, and medium strength.
+Isolation Room 1: The room is completely padded. It feels safe.
+1 1 N 2
+0 -1 Look-at-table Fear
+"No!"\nYou found fear, agility increased.
+0 -1 Look-at-table! None
+Your daughter lays on the table peacefully, smiling, hand imprints around her neck.\nShe's holding a torn diary page.\n“April 20: Mommy tried to leeve with me but daddy stoped her. He says he wants us to be to-get-her\nforevr. Mommy cried and tried to leave but daddy took me away. We went to the park and he held\nme real tight. He told me he wont let her take me. I just want daddy and mommy to be happy agin.”
+Morgue: There is an autopsy table in front of you...
