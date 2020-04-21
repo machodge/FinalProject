@@ -1,8 +1,17 @@
 #include<algorithm>
 #include<iostream>
+#include<string>
+#include<thread>
+#include<chrono>
 #include<map>
 using namespace std;
+using std::this_thread::sleep_for;
+using std::chrono::milliseconds;
 
+void slow_print(const string&, unsigned int);   //Prototype to print type writer style
+
+/*Player data structure to hold all data pertaining to 
+ rooms*/
 struct Player
 {
     int Courage;
@@ -37,3 +46,12 @@ struct Room
     map<string, Room *> adj;        //Accessable points from room
 };
 
+/*Function to print out string type writer style*/
+void slow_print(const string& message, unsigned int millis_per_char)
+{
+    for(const char c: message)
+    {
+        cout << c << flush;
+        sleep_for(milliseconds(millis_per_char));
+    }
+}
