@@ -1,70 +1,28 @@
+#include "../include/game.h"
 #include<algorithm>
 #include<iostream>
 #include<sstream>
 #include<fstream>
-#include<string>
-#include<thread>
-#include<chrono>
 #include<vector>
 #include<map>
 
 using namespace std;
-using std::this_thread::sleep_for;
-using std::chrono::milliseconds;
 
-void slow_print(const string&, unsigned int);	//Prototype to print type writer style
-
-/*Player data structure to hold all data pertaining to 
-  rooms*/
-struct Player
-{
-	int Courage;
-	int Willpower;
-	int Strength;
-	int Agility;
-	int Accuracy;
-	int Defense ;
-	bool BoneSaw;
-	bool Scythe;
-	bool DOG;
-	bool Scalpel;
-};
-/*Action data structure to hold all data pertaining to
-  actions*/
-struct Action
-{
-	bool check;
-	string item;
-	string description;
-	pair <int, int> lock;
-};
-/*Room data structure to hold all data pertaining to 
-rooms*/
-struct Room
-{
-	bool lock;						//Wheter or not room is locked
-	string description;				//Room description
-	pair <int, int> loc;			//Room location
-	map<string, Action *>  actions;	//Allowed actions in room
-	vector<string> directions;		//Allowed directions 
-	map<string, Room *> adj;		//Accessable points from room
-};
-
-bool Save(int i, int j, int gs, int cf, int d, vector<vector<Room *>> f1, vector<vector<Room *>> f2, Player *p);	//Protoype to save game state
+void read_in(vector<vector<Room *>> &f, ifstream &fin);
+void adj_list(vector<vector<Room *>> &f);
+void clean(vector<vector<Room *>> &f);
 
 int main(int argc, char *argv[])
 {
-	map<string, Action *>::iterator sit;    //Action iterator
+	map<string, Action*>::iterator sit;		//Action iterator
 	vector<vector<Room *> > f, f1, f2;		//Game map
 	map<string, Room *>::iterator nit;		//Map iterator
-	string line, action, cd;				//Strings to read in data
 	int d, gs, cf, row, col;				//Variables to keep track of game progress
-	int i, j, k, l, c, fc;					//Variables to format data read in
 	stringstream ss;						//Stringstream for data read in
+	string line, cd;						//Strings to read in data
 	ifstream fin;							//File in to read from file
 	Player *p;								//Pointer to the player class
-	Action *a;								//Tmp pointer to action struct
-	Room *r;								//Tmp pointer to room struct
+	int i, j;								//Variables for game progression
 	
 	p = new Player;
 
@@ -84,7 +42,7 @@ int main(int argc, char *argv[])
 	
 	if(cd == "LS")
 	{
-		fin.open("save.txt");
+		fin.open("../data/save.txt");
 		getline(fin, line);
 		ss.clear();
 		ss.str(line);
@@ -106,7 +64,7 @@ int main(int argc, char *argv[])
     
 	if(cd == "NG")
 	{
-		fin.open("game.txt");
+		fin.open("../data/game.txt");
 		getline(fin, line);
 		ss.clear();
 		ss.str(line);
@@ -163,91 +121,15 @@ int main(int argc, char *argv[])
     printf("Type 'o' (Options) to see these options again.\n\n");
 
 //Pull info to make rooms from file
-	for(fc = 0; fc <= 1; fc++)
-	{
-		f.resize(6);
-		for(i = 0; i < 6; i++)
-		{
-			for(j = 0; j < 8; j++)
-			{
-				getline(fin, line);
-				r = new Room;
-				ss.clear();
-				ss.str(line);
-				ss >> r->lock;
-				ss >> k;
-				for(l = 0; l < k; l++)
-				{
-					ss >> cd;
-					r->directions.push_back(cd);
-				}
-				ss >> k;
-				for(l = 0; l < k; l++)
-				{
-					a = new Action;
-					getline(fin, line);
-					ss.clear();
-					ss.str(line);
-					ss >> a->check >> c >> action >> a->item;
-					replace(action.begin(), action.end(), '-', ' ');
-					getline(fin, a->description);
-					if(c != -1)
-					{
-						a->lock.first = c / 8;
-						a->lock.second = c % 8;
-					}
-					else
-					{
-						a->lock.first = -1;
-						a->lock.second = -1;
-					}
-					r->actions.insert(make_pair(action, a));			
-				}
-				getline(fin, r->description);
-				r->loc.first = i;
-				r->loc.second = j;
-				f[i].push_back(r);
-			}
-		}
-		if(fc == 0)
-			f1 = f;
-		else if(fc == 1)
-			f2 = f;
-		f.clear();
-	}
+	read_in(f1, fin);
+	read_in(f2, fin);
 
 //Closes file
 	fin.close();
 //Creates adjacency list
-	for(fc = 0; fc <= 1; fc++)
-	{
-		if(fc == 0)
-			f = f1;
-		else if(fc == 1)
-			f = f2;
-		for(i = 0; i < f.size(); i++)
-		{
-			for(j = 0; j < f[i].size(); j++)
-			{
-				for(k = 0; k < f[i][j]->directions.size(); k++)
-				{
-					if(f[i][j]->directions[k] == "N")
-						f[i][j]->adj.insert(make_pair("n", (f[i-1][j])));
-					else if(f[i][j]->directions[k] == "S")
-						f[i][j]->adj.insert(make_pair("s", (f[i+1][j])));
-					else if(f[i][j]->directions[k] == "W")
-						f[i][j]->adj.insert(make_pair("w", (f[i][j-1])));
-					else if(f[i][j]->directions[k] == "E")
-						f[i][j]->adj.insert(make_pair("e", (f[i][j+1])));
-				}
-			}
-		}
-		if(fc == 0)
-			f1 = f;
-		else if(fc == 1)
-			f2 = f;
-		f.clear();
-	}
+	adj_list(f1);
+	adj_list(f2);	
+
 	i = row;
 	j = col;
 	if(cf == 1)
@@ -257,7 +139,6 @@ int main(int argc, char *argv[])
 	
 //Takes input from user and plays game
 	cin.get();
-	//printf("\n");
 	while(1)
 	{
 		getline(cin, line);
@@ -266,11 +147,6 @@ int main(int argc, char *argv[])
 			break;
 		else if(f[i][j]->actions.find(line) != f[i][j]->actions.end())
 		{
-			if((i == 1)&&(j == 0)&&(d == 0))
-			{
-				slow_print("I have to find my family.\n\n", 30);
-				d++;
-			}
 			sit = f[i][j]->actions.find(line);
 			if((sit->second->check)&&(sit->second->item != "None"))
 				slow_print("Action already explored.\n\n", 30);
@@ -425,6 +301,11 @@ int main(int argc, char *argv[])
 			{
 				i = nit->second->loc.first;
 				j = nit->second->loc.second;
+				if((i == 1)&&(j == 0)&&(d == 0))
+				{
+					slow_print("\"I have to find my family.\"\n\n", 30);
+					d++;
+				}
 				printf("%s\n\n", f[i][j]->description.c_str());
 			}
 		}
@@ -433,111 +314,102 @@ int main(int argc, char *argv[])
 	}
 
 //Deletes all allocated memory to prevent memory leaks
-	for(fc = 0; fc <= 1; fc++)
-	{
-		if(fc == 0)
-			f = f1;
-		else if(fc == 1)
-			f = f2;
-		for(i = 0; i < f.size(); i++)
-		{
-			for(j = 0; j < f[i].size(); j++)
-			{
-				for(sit = f[i][j]->actions.begin(); sit != f[i][j]->actions.end(); sit++)
-					delete sit->second;
-				delete f[i][j];
-			}
-		}
-	}
-	f2.clear();
-	f1.clear();
-	f.clear();
+	clean(f1);
+	clean(f2);
 	delete p;
 
 	return 0;
 }
 
-/*Function to save current game state*/
-bool Save(int i, int j, int gs, int cf, int d, vector<vector<Room *>> f1, vector<vector<Room *>> f2, Player *p)
+void read_in(vector<vector<Room *>> &f, ifstream &fin)
 {
-	size_t k;
-	string line;
-	ofstream fout;
-	int row, col, fc;
-	vector<vector<Room *>> f;
-	map<string, Action *>::iterator nit;
+	string line, cd, action;
+	int i, j, k, l, c;
+	stringstream ss;
+	Action *a;
+	Room *r;
 
-	fout.open("save.txt");
-	if(fout.fail())
-		return false;
-	fout << gs << " " << cf << " " << i << " " << j << " " << d << "\n";
-	fout << p->Courage << " " << p->Willpower << " " << p->Strength << " "
-		 << p->Agility << " " << p->Accuracy << " " << p->Defense << " ";
-	if(p->BoneSaw)
-		fout << "1 ";
-	else 
-		fout << "0 ";
-	if(p->Scythe)
-		fout << "1 ";
-	else 
-		fout << "0 ";
-	if(p->DOG)
-		fout << "1 ";
-	else
-		fout << "0 ";
-	if(p->Scalpel)
-		fout << "1\n";
-	else 
-		fout << "0\n";
-	for(fc = 0; fc <= 1; fc++)
+	f.resize(6);
+	for(i = 0; i < 6; i++)
 	{
-		if(fc == 0)
-			f = f1;
-		else if(fc == 1)
-			f = f2;
-		for(row = 0; row < 6; row++)
+		for(j = 0; j < 8; j++)
 		{
-			for(col = 0; col < 8; col++)
+			getline(fin, line);
+			r = new Room;
+			ss.clear();
+			ss.str(line);
+			ss >> r->lock;
+			ss >> k;
+			for(l = 0; l < k; l++)
 			{
-				if(f[row][col]->lock)
-					fout << "1 ";
-				else
-					fout << "0 ";
-				fout << f[row][col]->directions.size() << " ";
-				for(k = 0; k < f[row][col]->directions.size(); k++)
-					fout << f[row][col]->directions[k] << " ";
-				fout << f[row][col]->actions.size() << "\n";
-				
-				for(nit = f[row][col]->actions.begin(); nit != f[row][col]->actions.end(); nit++)
+				ss >> cd;
+				r->directions.push_back(cd);
+			}
+			ss >> k;
+			for(l = 0; l < k; l++)
+			{
+				a = new Action;
+				getline(fin, line);
+				ss.clear();
+				ss.str(line);
+				ss >> a->check >> c >> action >> a->item;
+				replace(action.begin(), action.end(), '-', ' ');
+				getline(fin, a->description);
+				if(c != -1)
 				{
-					if(nit->second->check)
-						fout << "1 ";
-					else
-						fout << "0 ";
-					if(nit->second->lock.first == -1)
-						fout << "-1 ";
-					else
-						fout << (nit->second->lock.first*8)+nit->second->lock.second << " ";
-					line = nit->first;
-					replace(line.begin(), line.end(), ' ', '-');
-					fout << line << " " << nit->second->item << "\n";
-					fout << nit->second->description << "\n";
+					a->lock.first = c / 8;
+					a->lock.second = c % 8;
 				}
-				fout << f[row][col]->description << "\n";
+				else
+				{
+					a->lock.first = -1;
+					a->lock.second = -1;
+				}
+				r->actions.insert(make_pair(action, a));			
+			}
+			getline(fin, r->description);
+			r->loc.first = i;
+			r->loc.second = j;
+			f[i].push_back(r);
+		}
+	}
+}
+
+void adj_list(vector<vector<Room *>> &f)
+{
+	size_t i, j, k;
+
+	for(i = 0; i < f.size(); i++)
+	{
+		for(j = 0; j < f[i].size(); j++)
+		{
+			for(k = 0; k < f[i][j]->directions.size(); k++)
+			{
+				if(f[i][j]->directions[k] == "N")
+					f[i][j]->adj.insert(make_pair("n", (f[i-1][j])));
+				else if(f[i][j]->directions[k] == "S")
+					f[i][j]->adj.insert(make_pair("s", (f[i+1][j])));
+				else if(f[i][j]->directions[k] == "W")
+					f[i][j]->adj.insert(make_pair("w", (f[i][j-1])));
+				else if(f[i][j]->directions[k] == "E")
+					f[i][j]->adj.insert(make_pair("e", (f[i][j+1])));
 			}
 		}
 	}
-
-	fout.close();
-	return true;
 }
 
-/*Function to print out string type writer style*/
-void slow_print(const string& message, unsigned int millis_per_char) 
+void clean(vector<vector<Room *>> &f)
 {
-	for(const char c: message)
+	map<string, Action *>::iterator sit;
+	size_t i, j;
+	
+	for(i = 0; i < f.size(); i++)
 	{
-		cout << c << flush;
-		sleep_for(milliseconds(millis_per_char));
+		for(j = 0; j < f[i].size(); j++)
+		{
+			for(sit = f[i][j]->actions.begin(); sit != f[i][j]->actions.end(); sit++)
+				delete sit->second;
+			delete f[i][j];
+		}
 	}
 }
