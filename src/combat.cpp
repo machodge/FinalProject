@@ -24,7 +24,7 @@ bool combat(Player &player, vector <Enemy> enemies){
 	do{
 
 		//check if player is dead
-		if(player.hp <= 0){
+		if(player.willpower <= 0){
 
 			playerDead = true;
 			break;
@@ -69,6 +69,8 @@ bool combat(Player &player, vector <Enemy> enemies){
 
 	}while(true);
 
+	return true;
+
 }
 
 void playerTurn(){
@@ -104,9 +106,13 @@ void playerTurn(){
 
 	}
 
+	return;
+
 }
 
 void enemyTurn(Enemy &e){
+
+	(void) e;
 
 	cout << "Enemy's turn\n";
 	
