@@ -84,9 +84,9 @@ bool Save(int i, int j, int gs, int cf, int d, int r, vector<vector<Room *>> f1,
 	else
 		fout << "0 ";
 	if(p->Scalpel)
-		fout << "1\n";
+		fout << "1 ";
 	else 
-		fout << "0\n";
+		fout << "0 ";
 	if(p->Knife)
 		fout << "1\n";
 	else

@@ -159,7 +159,19 @@ int main(int argc, char *argv[])
 		printf("\n");
 		//Quits game if input is q
 		if(line == "q")
-			break;
+		{
+			printf("Are you sure you want to exit the game?(y/n)\n");
+			cin >> cd;
+			cin.get();
+			while((cd != "y")&&(cd != "n"))
+			{
+				printf("Invalid input.\n");
+				cin >> cd;
+			}
+			if(cd == "y")
+				break;
+			printf("\n");
+		}
 		//Mid-game scene
 		else if(r == 4)
 		{
@@ -199,6 +211,8 @@ int main(int argc, char *argv[])
 				p->BoneSaw = false;
 				p->Scythe = false;
 				p->Knife = true;
+				i = 0;
+				j = 0;
 				gs++;
 			}
 		}
@@ -477,6 +491,65 @@ int main(int argc, char *argv[])
 					cf = 1;
 					gs++;
 				}
+				else if((i == 5)&&(j == 0)&&(cf == 1)&&(line == "Search Cabinet"))
+				{
+					slow_print("You are about to read your file. This action is not reversible, are you sure you wish to continue?(y/n)\n", 30);
+					cin >> cd;
+					cin.get();
+					while((cd != "y")&&(cd != "n"))
+					{
+						printf("Invalid input.\n");
+						cin >> cd;
+					}
+					if(cd == "y")
+					{
+						printf("Dr. Graham,\n\n");
+						printf("I am sending you a patient named Alan Brown. He is a 34-year-old man with mental issues. On April 21\n");
+						printf("Alan killed his 32-year-old wife Janet Brown and his 8-year-old daughter Cindy Brown. Alan had been\n");
+						printf("diagnosed with schizophrenia a while back, but it seems after what happened it developed into psychosis.\n");
+						printf("His wife was afraid of what he might do so she tried to take the kid and run, Alan did not like this. Alan\n");
+						printf("had bad separation anxiety and in a messed-up way, he seemed to think killing them was the only way to\n");
+						printf("keep them around. It took a couple of days for my men to find them but when they did, it was just Alan\n");
+						printf("and the two bodies hold up in a room. We took him into custody and alerted known relatives of what\n");
+						printf("happened. At his court trial they forced Alan to read excerpts from his daughter’s diary to illicit a response\n");
+						printf("out of him, but he just kept acting like a doting father. The final ruling was that he was not criminally\n");
+						printf("responsible by reason of mental disorder. It honestly makes me sick; the bastard should get the death\n");
+						printf("sentence. Anyway, I am sending him your way because I know you do good work at that psychiatric ward.\n");
+						printf("Please cure him so he can face judgement.\n\n");
+						printf("Thanks in advance,\n");
+						printf("Sheriff John Jackson");
+						cin.get();
+						printf("\n");
+						slow_print("\"...Cindy\"", 200);
+						cin.get();
+						slow_print("\"...Janet\"", 200);
+						cin.get();
+						slow_print("\"H-how...\"", 100);
+						cin.get();
+						slow_print("Tears begin to leave your eyes.", 30);
+						cin.get();
+						slow_print("You take the knife and point it at your face.", 30);
+						cin.get();
+						slow_print("\"Daddy's so sorry, don't worry, we'll be together forever.\"\n", 100);
+						slow_print("You slam your head down on the knife.", 30);
+						cin.get();
+						slow_print("...", 100);
+						cin.get();
+						slow_print("The cops find you in a pool of blood in the doctors office.\n", 30);
+						slow_print("Everywhere around you are the dead bodies of patients.", 30);
+						cin.get();
+						slow_print("Next to you is the dead body of Dr. Graham.", 30);
+						cin.get();
+						slow_print("In your hand is a picture of your family...", 30);
+						cin.get();
+						slow_print("The photo shows you next to the corpses of your wife and daughter.", 30);
+						cin.get();
+						printf("Congratulations! Insomnia cured!");
+						cin.get();
+						printf("You can finally get some rest.\n");
+						break;
+					}
+				}
 				//If action is in a stairwell, changes floors
 				else if((((i == 0)&&(j == 3))||((i == 5)&&(j == 3)))&&(line == "Descend Stairs")&&(cf == 1))
 				{	
@@ -507,6 +580,7 @@ int main(int argc, char *argv[])
 				//Double checks that player wants to heal
 				printf("Willpower is %d. Are you sure you want to use courage? (y/n)\n", p->Willpower);
 				cin >> cd;
+				cin.get();
 				while((cd != "y")&&(cd != "n"))
 				{
 					printf("Invalid input.\n");
@@ -554,6 +628,8 @@ int main(int argc, char *argv[])
 				printf("Delusion Of Grandeur: High Defense, Medium Strength, Small Agility\n");
 			if(p->Scalpel)
 				printf("Old Spaniard's Scalpel: High Agility, Medium Accuracy, Medium Strength\n");
+			if(p->Knife)
+				printf("Knife.\n");
 			printf("\n");
 		}
 		//Saves game then outputs wheter or not save failed
@@ -643,7 +719,7 @@ int main(int argc, char *argv[])
 					sit = f1[2][1]->actions.find("Try light switch");
 					if(sit->second->check)
 					{
-						slow_print("A man in white was waiting behind the door you.", 30);
+						slow_print("A man in white was waiting behind the door for you.", 30);
 						cin.get();
 						slow_print("You push him out the way and run down the hall.", 30);
 						cin.get();

@@ -218,7 +218,7 @@ You are in a degraded hallway. Near you is the recreation room.
 You are in a degraded hallway. Infornt of you is a window. Behind you is the recreation room.
 1 2 N E 1
 0 -1 Search-Cabinet None
-End-game-note
+You find your file.
 Doctors Office: There is a filing cabinet before you, it may contain information about your situation. Near you is another filing cabinet and a painting.
 1 3 N W E 1
 0 -1 Look-at-painting None
