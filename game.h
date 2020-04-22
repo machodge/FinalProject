@@ -63,7 +63,7 @@ bool Save(int i, int j, int gs, int cf, int d, int r, vector<vector<Room *>> f1,
 	map<string, Action *>::iterator nit;	//Action iterator
 
 //Opens save file
-	fout.open("../data/save.txt");
+	fout.open("data/save.txt");
 //If save fails return false
 	if(fout.fail())
 		return false;

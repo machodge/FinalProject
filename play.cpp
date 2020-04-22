@@ -12,7 +12,7 @@ void read_in(vector<vector<Room *>> &f, ifstream &fin);		//Prototype to read in 
 void adj_list(vector<vector<Room *>> &f);					//Prototype to create adjacency lists
 void clean(vector<vector<Room *>> &f);						//Prototype to free allocated data
 
-int main(int argc, char *argv[])
+int main()
 {
 	map<string, Action*>::iterator sit;		//Action iterator
 	vector<vector<Room *> > f, f1, f2;		//Game map
@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 	
 	if(cd == "LS")
 	{
-		fin.open("../data/save.txt");
+		fin.open("data/save.txt");
 		getline(fin, line);
 		ss.clear();
 		ss.str(line);
@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
 	//If new game reads in default gamestate and player data
 	if(cd == "NG")
 	{
-		fin.open("../data/game.txt");
+		fin.open("data/game.txt");
 		getline(fin, line);
 		ss.clear();
 		ss.str(line);
