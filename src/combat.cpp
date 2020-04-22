@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../include/combat.h"
+#include "include/combat.h"
 
 using namespace std;
 
