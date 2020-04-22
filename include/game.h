@@ -27,6 +27,7 @@ struct Player
     bool Scythe;
     bool DOG;
     bool Scalpel;
+	bool Knife;
 };
 
 /*Action data structure to hold all data pertaining to
@@ -52,7 +53,7 @@ struct Room
 };
 
 /*Function to save current game state*/
-bool Save(int i, int j, int gs, int cf, int d, vector<vector<Room *>> f1, vector<vector<Room *>> f2, Player *p)
+bool Save(int i, int j, int gs, int cf, int d, int r, vector<vector<Room *>> f1, vector<vector<Room *>> f2, Player *p)
 {
 	size_t k;								//Variable for formatting
 	string line;							//String to format data
@@ -67,7 +68,7 @@ bool Save(int i, int j, int gs, int cf, int d, vector<vector<Room *>> f1, vector
 	if(fout.fail())
 		return false;
 //Formats and outputs all data in save file
-	fout << gs << " " << cf << " " << i << " " << j << " " << d << "\n";
+	fout << gs << " " << cf << " " << i << " " << j << " " << d << " " << r << "\n";
 	fout << p->Courage << " " << p->Willpower << " " << p->Strength << " "
 		 << p->Agility << " " << p->Accuracy << " " << p->Defense << " ";
 	if(p->BoneSaw)
@@ -85,6 +86,10 @@ bool Save(int i, int j, int gs, int cf, int d, vector<vector<Room *>> f1, vector
 	if(p->Scalpel)
 		fout << "1\n";
 	else 
+		fout << "0\n";
+	if(p->Knife)
+		fout << "1\n";
+	else
 		fout << "0\n";
 	for(fc = 0; fc <= 1; fc++)
 	{

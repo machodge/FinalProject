@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
 	map<string, Action*>::iterator sit;		//Action iterator
 	vector<vector<Room *> > f, f1, f2;		//Game map
 	map<string, Room *>::iterator nit;		//Map iterator
-	int d, gs, cf, row, col;				//Variables to keep track of game progress
+	int d, gs, cf, row, col, r;				//Variables to keep track of game progress
 	stringstream ss;						//Stringstream for data read in
 	string line, cd;						//Strings to read in data
 	ifstream fin;							//File in to read from file
@@ -57,12 +57,12 @@ int main(int argc, char *argv[])
 		else
 		{
 			//If save contains data, reads in the game state and player data
-			ss >> gs >> cf >> row >> col >> d;
+			ss >> gs >> cf >> row >> col >> d >> r;
 			getline(fin, line);
 		    ss.clear();
 	        ss.str(line);
 		    ss >> p->Courage >> p->Willpower >> p->Strength >> p->Agility >> p->Accuracy >> p->Defense
-			   >> p->BoneSaw >> p->Scythe >> p->DOG >> p->Scalpel;
+			   >> p->BoneSaw >> p->Scythe >> p->DOG >> p->Scalpel >> p->Knife;
 		}
 	}
     
@@ -73,12 +73,12 @@ int main(int argc, char *argv[])
 		getline(fin, line);
 		ss.clear();
 		ss.str(line);
-		ss >> gs >> cf >> row >> col >> d;
+		ss >> gs >> cf >> row >> col >> d >> r;
 		getline(fin, line);
 		ss.clear();
 		ss.str(line);
 		ss >> p->Courage >> p->Willpower >> p->Strength >> p->Agility >> p->Accuracy >> p->Defense
-		   >> p->BoneSaw >> p->Scythe >> p->DOG >> p->Scalpel;
+		   >> p->BoneSaw >> p->Scythe >> p->DOG >> p->Scalpel >> p->Knife;
 		//Asks a question that boosts one stat
 		slow_print("How would you describe yourself?\n", 30);
 		slow_print("Paranoid(Type 'p'), Fearful(Type 'f'), Delusional(Type 'd'), Brave(Type 'c'), or Stable(Type 's')?\n", 30);
@@ -150,12 +150,58 @@ int main(int argc, char *argv[])
 	cin.get();
 	while(1)
 	{
+		//Formatting for mid-game scene
+		if(r != -1)
+			r++;
+//		cout << r << "\n";
 		//Takes user input
 		getline(cin, line);
 		printf("\n");
 		//Quits game if input is q
 		if(line == "q")
 			break;
+		//Mid-game scene
+		else if(r == 4)
+		{
+			r = -1;
+			slow_print("...", 100);
+			cin.get();
+			slow_print("\"Something feels off...\"", 100);
+			cin.get();
+			slow_print("\"I guess he got m-\"\n", 100);
+			slow_print("...", 100);
+			cin.get();
+			slow_print("You wake up in a white bed, it's still night out.\n\n", 30);
+			i = 0;
+			j = 0;
+			gs++;
+		}
+		//Pre-endgame scene
+		else if((i == 2)&&(j == 0)&&(cf == 1)&&(gs == 4)&&(line == "n"))
+		{
+			sit = f1[i][j]->actions.find("Talk to the man");
+			if(sit->second->check)
+			{
+				slow_print("As you go to leave the man gets up and charges at you.", 30);
+				cin.get();
+				slow_print("You feel something sharp jab you and your vision begins to blur again.", 30);
+				cin.get();
+				slow_print("...", 100);
+				cin.get();
+				slow_print("You wake up in a white bed, it's still night out.", 30);
+				cin.get();
+				slow_print("On the dresser next to you is a knife with a note.\n", 30);
+				slow_print("\"Earn your truth.\"", 30);
+				cin.get();
+				slow_print("You pick up the knife.\n\n", 30);
+				p->Scalpel = false;
+				p->DOG = false;
+				p->BoneSaw = false;
+				p->Scythe = false;
+				p->Knife = true;
+				gs++;
+			}
+		}
 		//If user inputs an action
 		else if(f[i][j]->actions.find(line) != f[i][j]->actions.end())
 		{
@@ -214,9 +260,223 @@ int main(int argc, char *argv[])
 				}
 				//Print out action description
 				slow_print(sit->second->description, 30);
+				printf("\n");
 				//If action has special dialogue associated with it, outputs dialogue
-				if((i == 0)&&(j == 0)&&(!sit->second->check)&&(line == "Search Dresser"))
-					slow_print("\n\"Find your truth.\"", 30);
+				if((i == 0)&&(j == 0)&&(!sit->second->check)&&(line == "Search Dresser")&&(cf == 1))
+					slow_print("\"Find your truth.\"\n", 55);
+				else if((i == 0)&&(j == 7)&&(line == "Search Cabinet")&&(cf == 1))
+				{
+					printf("April 04: Today me and daddy went to get ice cream. Mom was too busy to come but me and daddy still\n");
+					printf("had fun. A mean doggy tried to eat me but daddy saved me. It was scary. I hope we do something fun\n");
+					printf("agin tomorrow.");
+					cin.get();
+					printf("\n");
+					if(!sit->second->check)
+					{
+						slow_print("\"Don't worry sweety, daddy's gonna find you.\"", 55);
+						cin.get();
+						slow_print("\"We'll be together forever.\"", 55);
+						cin.get();
+					}
+					else
+					{
+						slow_print("\"Together forever.\"", 55);
+						cin.get();
+					}
+				}
+				else if((i == 1)&&(j == 4)&&(cf == 1)&&(!sit->second->check)&&(line == "Look at painting"))
+					slow_print("You found paranoia, accuracy increased!\n", 30);
+				else if((i == 2)&&(j == 0)&&(cf == 1)&&(line == "Talk to the man"))
+				{
+					if(!sit->second->check)
+					{
+						slow_print("\"But if I did do it, they’d know.\"", 30);
+						cin.get();
+						slow_print("\"Oh-ho-ho, they’d know alright!\"", 30);
+						cin.get();
+						slow_print("\"They’d know what I cannot know which makes them the thing that’ll break me.\"\n", 30);
+						slow_print("\"So, will they break me?\"", 40);
+						cin.get();
+						slow_print("\"Will they break you?\"", 50);
+						cin.get();
+						slow_print("\"Find your truth.\"", 55);
+						cin.get();
+						slow_print("The man gives me a key, doctors office is now accessible.\n", 30);
+					}
+					else
+					{
+						slow_print("\"Find your truth.\"", 55);
+						cin.get();
+					}
+				}
+				else if((i == 2)&&(j == 0)&&(cf == 1)&&(line == "Search Room"))
+				{
+					printf("April 21: I wonder if mom and daddy will be happy agin. They hav been fighting a lot. They where just\n");
+					printf("fighting but now mom is quiet. Daddy is still talking. Hes saying he didnt do it. I hope he didnt do\n");
+					printf("to mom what he did to that dog. Hes coming. No matter what I love my daddy verrrryyy mu-");
+					cin.get();
+					printf("\n");
+					if(!sit->second->check)
+					{
+						slow_print("\"Oh Cindy...\"", 100);
+						cin.get();
+						slow_print("\"Don't worry sweety, we'll be one big happy family again.\"", 55);
+						cin.get();
+						slow_print("\"When I get done with the doctor, I'll take you and mom and we can go home.\"", 55);
+						cin.get();
+						slow_print("\"We'll be-\"", 55);
+						cin.get();
+						slow_print("A tear leaves your eye.\n", 30);
+						slow_print("\"Together... forever...\"", 100);
+						cin.get();
+					}
+					else
+					{
+						slow_print("\"Together... forever...\"", 100);
+						cin.get();
+					}
+				}
+				else if((i == 2)&&(j == 1)&&(cf == 1)&&(line == "Search Room"))
+				{
+					printf("April 11: Mom stil wont come out with me and daddy. She says I shuldnt also but why not? Daddy is scary\n");
+					printf("at times but hes nice, he loves us verrrryyy much. Mom must be tyrd from work. I braut her a gift back\n");
+					printf("she was happy.");
+					cin.get();
+					printf("\n");
+					if(!sit->second->check)
+					{
+						slow_print("\"Mom was just confused, don't worry, we'll all be happy together when I find you.\"\n", 40);
+						slow_print("\"Wait for me Cindy.\"", 40);
+						cin.get();
+					}
+					else
+					{
+						slow_print("\"Wait for me Cindy.\"", 40);
+						cin.get();
+					}
+				}
+				else if((i == 3)&&(j == 0)&&(cf == 1)&&(line == "Search Desk"))
+				{
+					printf("Alan Brown truly is an interesting subject. I have never seen anything like his condition. Schizophrenia\n");
+					printf("developing into psychosis is common but such a severe case of it is truly remarkable. He somehow keeps\n");
+					printf("finding a way out of his room at night, during that time though he constantly fights the air and murmurs\n");
+					printf("to himself. Sometimes he will invade the other patient’s rooms, but he does not even see them, he\n");
+					printf("completely looks through them at something else. Of course, before day breaks, I find him, sedate him,\n");
+					printf("and take him back to his room, but sometimes I would find him passed out. I know what I am doing is widely\n");
+					printf("considered malpractice, but I believe he is truly close to seeing past his delusions. I predict if he stays\n");
+					printf("on his current path he might come to peace with his demons and cure himself, so for now, I will just keep\n");
+					printf("observing him. One thing that continues to shock me, however, is the fact that he has enough courage to keep\n");
+					printf("looking at that picture of his family, he cries every time.");
+					cin.get();
+				}
+				else if((i == 3)&&(j == 1)&&(cf == 1)&&(line == "Search Desk"))
+				{
+					printf("Dr. Graham has lost his damn mind, his fixation with that patient is going to be our downfall. Honestly, I\n");
+					printf("do not care if the fool gets himself killed believing in a delusional man, but I will not die with him. Ever\n");
+					printf("since his failure a couple of years back he has been dead set on rehabilitating a patient who has past far\n");
+					printf("beyond the walls of sanity. The fool truly believes he can do it too. If this gets too out of hand, I will put\n");
+					printf("an end to it and call the cops on both, the fool and his broken toy.");
+					cin.get();
+				}
+				else if((i == 3)&&(j == 3)&&(cf == 1)&&(line == "Search Plant"))
+					slow_print("You found courage, you can use this to increase your willpower(hp).\n", 30);
+				else if((i == 3)&&(j == 4)&&(cf == 1)&&(line == "Take Shower"))
+					slow_print("You found courage, you can use this to increase your willpower(hp).\n", 30);
+				else if((i == 3)&&(j == 6)&&(cf == 1)&&(line == "Read Note"))
+				{
+					slow_print("The note reassures you.", 30);
+					cin.get();
+					slow_print("You found stability, defense increased!\n", 30);
+				}
+				else if((i == 3)&&(j == 7)&&(cf == 1)&&(line == "Search Stalls"))
+					slow_print("You found courage, you can use this to increase your willpower(hp).\n", 30);
+				else if((i == 5)&&(j == 4)&&(cf == 1)&&(line == "Turn off tv"))
+					slow_print("You found courage, you can use this to increase your willpower(hp).\n", 30);
+				else if((i == 5)&&(j == 5)&&(cf == 1)&&(line == "Talk"))
+					slow_print("You found courage, you can use this to increase your willpower(hp).\n", 30);
+				else if((i == 5)&&(j == 5)&&(cf == 1)&&(line == "Talk?"))
+					slow_print("You found delusion, strength increased!\n", 30);
+				else if((i == 0)&&(j == 4)&&(cf == 2)&&(line == "Check Cabinets"))
+				{
+					slow_print("You found a key, kitchen is now accessible.", 30);
+					cin.get();
+					slow_print("\"You know what?\"", 40);
+					cin.get();
+					slow_print("\"I actually am hungry, I think I'll do just that!\"\n", 40);
+				}
+				else if((i == 0)&&(j == 6)&&(cf == 2)&&(line == "Sit at table"))
+					slow_print("You found courage, you can use this to increase your willpower(hp).\n", 30);
+				else if((i == 1)&&(j == 0)&&(cf == 2)&&(line == "Sit in chair"))
+					slow_print("You found stability, defense increased!\n", 30);
+				else if((i == 1)&&(j == 6)&&(cf == 2)&&(line == "Check out menu"))
+				{
+					slow_print("\"Today's menu is\"", 40);
+					cin.get();
+					slow_print("...", 100);
+					cin.get();
+					slow_print("\"Dear god...\"", 40);
+					cin.get();
+					slow_print("You found fear, agility increased!\n", 30);
+				}
+				else if((i == 3)&&(j == 0)&&(cf == 2)&&(line == "Search Drawer 2"))
+				{
+					printf("April 15: Mom says we hav to go far away. She says daddy is not himself. She says its not safe but if we\n");
+					printf("leave daddy he will be lonely. Daddy tells me he doz not want to be lonely. He says we will be to-get-her\n");
+					printf("forevr no matter what. I belive in daddy!");
+					cin.get();
+					printf("\n");
+					slow_print("\"Daddy believes in you too, sweety\"", 40);
+					cin.get();
+					gs++;
+				}
+				else if((i == 3)&&(j == 7)&&(cf == 2)&&(line == "Open body drawer"))
+				{
+					slow_print("You found delusion, strength increased!", 30);
+					cin.get();
+					slow_print("...", 100);
+					cin.get();
+					slow_print("\"Janet! There you are! Come on, we have to go find Cindy!\"", 55);
+					cin.get();
+				}
+				else if((i == 4)&&(j == 4)&&(cf == 2)&&(line == "Listen")&&(!sit->second->check))
+				{
+					slow_print("\"I know, you know.\"", 40);
+					cin.get();
+					slow_print("\"You know what you did! You know, you know!\"", 40);
+					cin.get();
+					slow_print("\"I can hear it.\"", 40);
+					cin.get();
+					slow_print("\"In the way you breathe.\"", 40);
+					cin.get();
+					slow_print("\"In the way you walk.\"", 40);
+					cin.get();
+					slow_print("\"I hear it all!\"\n", 40);
+				}
+				else if((i == 5)&&(j == 7)&&(cf == 2)&&(line == "Look at table"))
+					slow_print("You found fear, agility increased.\n",30);
+				else if((i == 5)&&(j == 7)&&(cf == 2)&&(line == "Look at table!")&&(!sit->second->check))
+				{
+					slow_print("She's holding a torn diary page.", 30);
+					cin.get();
+					printf("April 20: Mom tried to leeve with me but daddy stoped her. He says he wants us to be to-get-her forevr.\n");
+					printf("Mommy cried and tried to leave but daddy took me away. We went to the park and he held me real tight.\n");
+					printf("He told me he wont let her take me. I just want daddy and mom to be happy agin.");
+					cin.get();
+					printf("\n");
+					slow_print("...", 100);
+					cin.get();
+					slow_print("You pass out.", 30);
+					cin.get();
+					slow_print("...", 100);
+					cin.get();
+					slow_print("You wake up in a white bed, it's still night out.\n", 30);
+					i = 0; 
+					j = 0;
+					f2 = f;
+					f = f1;
+					cf = 1;
+					gs++;
+				}
 				//If action is in a stairwell, changes floors
 				else if((((i == 0)&&(j == 3))||((i == 5)&&(j == 3)))&&(line == "Descend Stairs")&&(cf == 1))
 				{	
@@ -232,7 +492,7 @@ int main(int argc, char *argv[])
 				}
 				//Mark action as done
 				sit->second->check = true;
-				printf("\n\n");
+				printf("\n");
 			}
 		}
 		//Player asks to heal
@@ -277,7 +537,7 @@ int main(int argc, char *argv[])
 			if(p->Willpower > 40)
 				printf("You have %d willpower(hp), you can still fight on!\n", p->Willpower);
 			//If player's health is low, tells them to heal
-			else if(p->Willpower < 40)
+			else if(p->Willpower <= 40)
 				printf("You have %d willpower(hp), you're almost out of motivation, use courage to replenish.\n", p->Willpower);
 			//Tells the player their stats along with any weapons they have
 			printf("You have level %d strength.\n", p->Strength);
@@ -299,7 +559,7 @@ int main(int argc, char *argv[])
 		//Saves game then outputs wheter or not save failed
 		else if(line == "S")
 		{
-			if(Save(i, j, gs, cf, d, f1, f2, p))
+			if(Save(i, j, gs, cf, d, r, f1, f2, p))
 				printf("Game Saved.\n");
 			else
 				printf("Save Failed.\n");
@@ -347,8 +607,53 @@ int main(int argc, char *argv[])
 				//Outputs special dialogue associated with that area
 				if((i == 1)&&(j == 0)&&(d == 0))
 				{
-					slow_print("\"I have to find my family.\"\n\n", 30);
+					slow_print("\"I have to find my family.\"\n\n", 40);
 					d++;
+				}
+				else if((i == 1)&&(j == 3)&&(d == 1))
+				{
+					slow_print("\"It feels like I'm being followed.\"\n\n", 40);
+					d++;
+				}
+				else if((i == 1)&&(j == 7)&&(gs == 0))
+				{
+					sit = f1[0][7]->actions.find("Search Dresser");
+					if(sit->second->check)
+					{
+						slow_print("You feel someone behind you.", 40);
+						cin.get();
+						slow_print("You turn aroud to see a man in white approaching you.\n", 40);
+						slow_print("He pokes you with something sharp and your vision starts to blur.\n", 40);
+						slow_print("Slowly, everything becomes black.", 40);
+						cin.get();
+						slow_print(". . .", 100);
+						cin.get();
+						i = 0;
+						j = 0;
+						slow_print("You wake up in a white bed, it's still night out.", 30);
+						cin.get();
+						slow_print("You feel like shit.", 30);
+						cin.get();
+						printf("\n");
+						gs++;
+					}
+				}
+				else if((i == 1)&&(j == 1)&&(gs == 1))
+				{
+					sit = f1[2][1]->actions.find("Try light switch");
+					if(sit->second->check)
+					{
+						slow_print("A man in white was waiting behind the door you.", 30);
+						cin.get();
+						slow_print("You push him out the way and run down the hall.", 30);
+						cin.get();
+						slow_print("It appears you have escaped.", 30);
+						cin.get();
+						printf("\n");
+						i = 1;
+						j = 7;
+						r++;
+					}
 				}
 			}
 		}
