@@ -1,120 +1,177 @@
 #include <iostream>
-#include "combat.h"
+#include <random>
+#include <ctime>
+//#include "../include/combat.h"
+#include "game.h"
 
 using namespace std;
 
-void playerTurn();
+pair<int, bool> playerTurn(Player &player, Enemy &enemy);
 
-void enemyTurn(Enemy &e);
+int enemyTurn(Player &player, Enemy &enemy);
 
 //make combat a bool that will return false once it is over.
-bool combat(Player &player, vector <Enemy> enemies){
-
-	vector <bool> deadEnemies;
-	size_t enemiesDead = 0;
-	size_t numEnemies = enemies.size();
-	bool playerDead = false;
-	bool enemiesDefeated = false;
-
-	deadEnemies.resize(numEnemies);
-
-	cout << "Start combat\n";
+bool combat(Player &player, Enemy &enemy) {
 
 	//run the combat loop until either the enemies or the player is dead
-	do{
-
-		//check if player is dead
-		if(player.willpower <= 0){
-
-			playerDead = true;
-			break;
-
-		}
-		//check how many enemies have died so far
-		for(size_t i = 0; i < enemies.size(); i++){
-
-			//if a new enemy has died, add it to the list of dead enemies
-			if(enemies[i].hp <= 0 && !deadEnemies[i]){
-
-				enemiesDead++;
-				deadEnemies[i] = true;
-
+	while (true) {
+		Player oldPlayer = player;
+		int enemyDamage = enemyTurn(player, enemy);
+		pair<int, bool> playerDamage = playerTurn(player, enemy);
+		if (player.Agility < enemy.speed) {
+			enemy.health -= playerDamage.second*((player.Strength+10)/10);
+			if (enemy.health <= 0) return true;
+			if (playerDamage.first != 0) {
+				if (playerDamage.second) {
+					cout << "You landed a critical hit for " << playerDamage.first << " damage! The enemy now has " << enemy.health << "health remaining!\n";
+				}
+				else cout << "You landed a hit for " << playerDamage.first << " damage! The enemy now has " << enemy.health << "health remaining!\n";
 			}
-
+			else cout << "Your attack missed!";
+			player.Willpower -= enemyDamage*((7-player.Defense)/7);
+			if (player.Willpower <= 0) return false;
+			if (enemyDamage == 0) cout << "The enemy's attack missed!";
+			else cout << "Your opponent hit you for " << enemyDamage << " damage! You have " << player.Willpower << " Willpower left!";
+			
 		}
-
-		//check if all of the enemies are dead
-		if(enemiesDead == numEnemies){
-
-			enemiesDefeated = true;
-			break;
-
-		}
-
-
-		//TODO: make turns based off of the player's and enemies' speed, rather than just player first then enemies
-
-		playerTurn();
-
-		for(size_t i = 0; i < enemies.size(); i++){
-
-			if(enemies[i].hp > 0){
-
-				enemyTurn(enemies[i]);
-
+		else {
+			player.Willpower -= enemyDamage*((7-player.Defense)/7);
+			if (player.Willpower <= 0) return false;
+			if (enemyDamage == 0) cout << "The enemy's attack missed!";
+			else cout << "Your opponent hit you for " << enemyDamage << " damage! You have " << player.Willpower << " Willpower left!";
+			
+			enemy.health -= playerDamage.second*((player.Strength+10)/10);
+			if (enemy.health <= 0) return true;
+			if (playerDamage.first != 0) {
+				if (playerDamage.second) {
+					cout << "You landed a critical hit for " << playerDamage.first << " damage! The enemy now has " << enemy.health << "health remaining!\n";
+				}
+				else cout << "You landed a hit for " << playerDamage.first << " damage! The enemy now has " << enemy.health << "health remaining!\n";
 			}
-
+			else cout << "Your attack missed!";
 		}
-
-
-	}while(true);
-
-	return true;
-
+	}
 }
 
-void playerTurn(){
+pair<int, bool> playerTurn(Player &player) {
 
-	int action;
+	int action, counter, weaponChoice;
+	string weapons[6];
+	srand(time(NULL));
 
 	cout << "Player's turn\n";
-	cout << "1) Attack\n2) Defend\n3)Items\n4)Run\n";
-	cout << "What will you do? ";
+	cout << "1) Attack\n2) Heal (" << player.Courage << " in inventory\n";
+	cout << "What will you do?\n";
 	cin >> action;
 
-	switch(action){
-
-		case 1:
-			cout << "Player attacked\n";
-			break;
-
-		case 2:
-			cout << "Player defended\n";
-			break;
-
-		case 3:
-			cout << "Player used an item\n";
-			break;
-
-		case 4:
-			cout << "Player tried to run\n";
-			break;
-
-		default:
-			cout << "invalid action\n";
-			break;
-
+	if (action == 1) {
+		if (player.DOG || player.BoneSaw || player.Scalpel || player.Scythe) {
+			counter = 1;
+			cout << "What weapon will you use?\n";
+			if (player.BoneSaw) {
+				cout << counter << ") Accomplice's Bone Saw: High Strength, Low Agility\n";
+				weapons[counter] = "Saw";
+				counter++;
+			}
+			if (player.Scythe) {
+				cout << counter << ") Harvester's Scythe: High Accuracy, Medium Strength\n";
+				weapons[counter] = "Scythe";
+				counter++;
+			}
+			if (player.DOG) {
+				cout << counter << ") Delusion Of Grandeur: High Defense, Medium Strength, Low Agility\n";
+				weapons[counter] = "DOG";
+				counter++;
+			}
+			if (player.Scalpel) {
+				cout << counter << ") Old Spaniard's Scalpel: High Agility, Medium Accuracy, Medium Strength\n";
+				weapons[counter] = "Scalpel";
+			}
+			if (player.Knife) {
+				cout << counter << ") The Knife: Very High Speed, Damamage, and Accuracy\n";
+				weapons[counter] = "Knife";
+			}
+			while(true) {
+				cin >> weaponChoice;
+				if (weaponChoice > 0 && weaponChoice < 5 && weapons[weaponChoice] != "") break;
+				else cout << "Invalid action, please try again\n";
+			}
+			if (weapons[weaponChoice] == "Saw") {
+				player.Agility = 0;
+				int hitChance = 50 + ((player.Accuracy/5) * 35);
+				if ((rand()%100) <= hitChance) {
+					if ((rand()%100) < 10) {
+						return make_pair<int, bool>(60, true);
+					}
+					return make_pair<int, bool>(30, false);
+				}
+				else return make_pair<int, bool>(0, false);
+			}
+			else if (weapons[weaponChoice] == "Scythe") {
+				int hitChance = 60 + ((player.Accuracy/5) * 35);
+				if ((rand()%100) <= hitChance) {
+					if ((rand()%100) < 30) {
+						return make_pair<int, bool>(40, true);
+					}
+					return make_pair<int, bool>(20, false);
+				}
+				else return make_pair<int, bool>(0, false);
+			}
+			else if (weapons[weaponChoice] == "DOG") {
+				player.Agility = 0;
+				player.Defense += 2;
+				int hitChance = 40 + ((player.Accuracy/5) * 25);
+				if ((rand()%100) <= hitChance) {
+					if ((rand()%100) < 15) {
+						return make_pair<int, bool>(30, true);
+					}
+					return make_pair<int, bool>(15, false);
+				}
+				else return make_pair<int, bool>(0, false);
+			}
+			else if (weapons[weaponChoice] == "Scalpel") {
+				player.Agility = 10;
+				int hitChance = 50 + ((player.Accuracy/5) * 25);
+				if ((rand()%100) <= hitChance) {
+					if ((rand()%100) < 25) {
+						return make_pair<int, bool>(50, true);
+					}
+					return make_pair<int, bool>(25, false);
+				}
+				else return make_pair<int, bool>(0, false);
+			}
+			else if (weapons[weaponChoice] == "Knife") {
+				player.Agility = 10;
+				player.Defense = 7;
+				return make_pair<int, bool>(50, false);
+			}
+		}
+		else {
+			int hitChance = 60 + ((player.Accuracy/5) * 25);
+			if ((rand()%100) <= hitChance) {
+				if ((rand()%100) < 15) {
+					return make_pair<int, bool>(20, true);
+				}
+				return make_pair<int, bool>(10, false);
+			}
+			else return make_pair<int, bool>(0, false);
+		}
 	}
 
-	return;
+	else if (action == 2) {
+		cout << "Player used an item\n";
+	}
+
+	else {
+		cout << "invalid action\n";
+	}
 
 }
 
-void enemyTurn(Enemy &e){
-
-	(void) e;
-
-	cout << "Enemy's turn\n";
-	
-
+int enemyTurn(Player &player, Enemy &enemy) {
+	int hitChance = enemy.accuracy - ((player.Agility/5) * 40);
+	if ((rand()%100) <= hitChance) {
+		return enemy.damage;
+	}
+	return 0;
 }

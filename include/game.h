@@ -30,6 +30,14 @@ struct Player
 	bool Knife;
 };
 
+struct Enemy {
+    int health;
+    int damage;
+    int speed;
+    int accuracy;
+};
+
+
 /*Action data structure to hold all data pertaining to
   actions*/
 struct Action

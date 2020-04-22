@@ -7,9 +7,6 @@ all: game
 
 combat.o: combat.cpp combat.h
 	$(CPP) $(CPPFLAGS) -c -o $@ combat.cpp
-
-inventory.o: inventory.cpp inventory.h
-	$(CPP) $(CPPFLAGS) -c -o $@ inventory.cpp
 	
 play.o: play.cpp game.h
 	$(CPP) $(CPPFLAGS) -c -o $@ play.cpp
