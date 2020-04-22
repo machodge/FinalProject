@@ -8,9 +8,9 @@
 
 using namespace std;
 
-void read_in(vector<vector<Room *>> &f, ifstream &fin);
-void adj_list(vector<vector<Room *>> &f);
-void clean(vector<vector<Room *>> &f);
+void read_in(vector<vector<Room *>> &f, ifstream &fin);		//Prototype to read in rooms
+void adj_list(vector<vector<Room *>> &f);					//Prototype to create adjacency lists
+void clean(vector<vector<Room *>> &f);						//Prototype to free allocated data
 
 int main(int argc, char *argv[])
 {
@@ -23,7 +23,8 @@ int main(int argc, char *argv[])
 	ifstream fin;							//File in to read from file
 	Player *p;								//Pointer to the player class
 	int i, j;								//Variables for game progression
-	
+
+//Allocating memory to the player
 	p = new Player;
 
 //Checks for saved games, error checks accordingly, then opens and reads from proper file
@@ -46,13 +47,16 @@ int main(int argc, char *argv[])
 		getline(fin, line);
 		ss.clear();
 		ss.str(line);
+		//Checks wheter or not save contains data.
 		if(line.empty())
 		{
 			printf("Saved game not found, starting a new game.\n\n");
 			cd = "NG";
+			fin.close();
 		}
 		else
 		{
+			//If save contains data, reads in the game state and player data
 			ss >> gs >> cf >> row >> col >> d;
 			getline(fin, line);
 		    ss.clear();
@@ -62,6 +66,7 @@ int main(int argc, char *argv[])
 		}
 	}
     
+	//If new game reads in default gamestate and player data
 	if(cd == "NG")
 	{
 		fin.open("../data/game.txt");
@@ -74,6 +79,7 @@ int main(int argc, char *argv[])
 		ss.str(line);
 		ss >> p->Courage >> p->Willpower >> p->Strength >> p->Agility >> p->Accuracy >> p->Defense
 		   >> p->BoneSaw >> p->Scythe >> p->DOG >> p->Scalpel;
+		//Asks a question that boosts one stat
 		slow_print("How would you describe yourself?\n", 30);
 		slow_print("Paranoid(Type 'p'), Fearful(Type 'f'), Delusional(Type 'd'), Brave(Type 'c'), or Stable(Type 's')?\n", 30);
 		cin >> cd;
@@ -107,10 +113,11 @@ int main(int argc, char *argv[])
 			p->Defense += 1;
 			slow_print("You've been gifted stability, defense increased!\n\n", 30);
 		}
-
+		//First line of game
 		slow_print("You wake up in a white bed, it's still night out.\n\n", 30);
 	}
     
+//Prints out player options
 	printf("Type one of the cardinal directions (lowercase) to move.\n");
     printf("Type 'i' (Info) to view your willpower (health) and your current stats.\n");
     printf("Type ‘a’ (Actions) to view current actions you can take.\n");
@@ -120,16 +127,18 @@ int main(int argc, char *argv[])
     printf("Type 'q' (Quit) to quit the game.\n");
     printf("Type 'o' (Options) to see these options again.\n\n");
 
-//Pull info to make rooms from file
+//Makes rooms from read in file
 	read_in(f1, fin);
 	read_in(f2, fin);
 
 //Closes file
 	fin.close();
-//Creates adjacency list
+
+//Creates adjacency lists
 	adj_list(f1);
 	adj_list(f2);	
 
+//Initializes starting area depending on read in data
 	i = row;
 	j = col;
 	if(cf == 1)
@@ -141,17 +150,24 @@ int main(int argc, char *argv[])
 	cin.get();
 	while(1)
 	{
+		//Takes user input
 		getline(cin, line);
 		printf("\n");
+		//Quits game if input is q
 		if(line == "q")
 			break;
+		//If user inputs an action
 		else if(f[i][j]->actions.find(line) != f[i][j]->actions.end())
 		{
+			//Sets sit to that action
 			sit = f[i][j]->actions.find(line);
+			//Error checks if action has already been done
 			if((sit->second->check)&&(sit->second->item != "None"))
 				slow_print("Action already explored.\n\n", 30);
+			//If not, preforms action
 			else
 			{
+				//If action gives you an item, act accordingly 
 				if(sit->second->item == "Courage")
 					p->Courage++;
 				else if(sit->second->item == "Fear")
@@ -170,6 +186,8 @@ int main(int argc, char *argv[])
 					p->BoneSaw = true;
 				else if(sit->second->item == "Delusion-Of-Grandeur")
 					p->DOG = true;
+				//Else if action is a key, checks if key leads to double doors or another floor and
+				//unlocks doors accordingly
 				if(sit->second->lock.first != -1)
 				{
 					if((sit->second->lock.first == 0)&&(sit->second->lock.second == 3))
@@ -194,9 +212,12 @@ int main(int argc, char *argv[])
 					else
 						f[sit->second->lock.first][sit->second->lock.second]->lock = true;
 				}
+				//Print out action description
 				slow_print(sit->second->description, 30);
+				//If action has special dialogue associated with it, outputs dialogue
 				if((i == 0)&&(j == 0)&&(!sit->second->check)&&(line == "Search Dresser"))
 					slow_print("\n\"Find your truth.\"", 30);
+				//If action is in a stairwell, changes floors
 				else if((((i == 0)&&(j == 3))||((i == 5)&&(j == 3)))&&(line == "Descend Stairs")&&(cf == 1))
 				{	
 					f1 = f;
@@ -209,27 +230,35 @@ int main(int argc, char *argv[])
 					f = f1;
 					cf = 1;
 				}
+				//Mark action as done
 				sit->second->check = true;
 				printf("\n\n");
 			}
 		}
+		//Player asks to heal
 		else if(line == "h")
 		{
+			//Checks to make sure player's health isn't full
 			if(p->Willpower == 100)
 				printf("Willpower(hp) is already full.\n");
+			//If not full, heals player
 			else
 			{
-				printf("Willpower is %d. Are you sure you want to use courage? (y/n)", p->Willpower);
+				//Double checks that player wants to heal
+				printf("Willpower is %d. Are you sure you want to use courage? (y/n)\n", p->Willpower);
 				cin >> cd;
 				while((cd != "y")&&(cd != "n"))
 				{
 					printf("Invalid input.\n");
 					cin >> cd;
 				}
+				//Heals player
 				if(cd == "y")
 				{
+					//Checks if player has courage
 					if(p->Courage == 0)
 						printf("You don't have any courage.\n");
+					//If player has courage, heals
 					else
 					{
 						printf("You look at a picture of your family. Willpower(hp) replenished!\n");
@@ -241,12 +270,16 @@ int main(int argc, char *argv[])
 			}
 			printf("\n");
 		}
+		//Player wishes to see info
 		else if(line == "i")
 		{
-			if(p->Willpower > 30)
+			//If player's health isn't too low tells them they're fine
+			if(p->Willpower > 40)
 				printf("You have %d willpower(hp), you can still fight on!\n", p->Willpower);
-			else if(p->Willpower < 30)
+			//If player's health is low, tells them to heal
+			else if(p->Willpower < 40)
 				printf("You have %d willpower(hp), you're almost out of motivation, use courage to replenish.\n", p->Willpower);
+			//Tells the player their stats along with any weapons they have
 			printf("You have level %d strength.\n", p->Strength);
 			printf("You have level %d agility.\n", p->Agility);
 			printf("You have level %d accuracy.\n", p->Accuracy);
@@ -263,6 +296,7 @@ int main(int argc, char *argv[])
 				printf("Old Spaniard's Scalpel: High Agility, Medium Accuracy, Medium Strength\n");
 			printf("\n");
 		}
+		//Saves game then outputs wheter or not save failed
 		else if(line == "S")
 		{
 			if(Save(i, j, gs, cf, d, f1, f2, p))
@@ -270,6 +304,7 @@ int main(int argc, char *argv[])
 			else
 				printf("Save Failed.\n");
 		}
+		//Shows options again
 		else if(line == "o")
 		{
 			printf("Type one of the cardinal directions (lowercase) to move.\n");
@@ -281,34 +316,43 @@ int main(int argc, char *argv[])
 			printf("Type 'q'(Quit) to quit the game.\n");
 			printf("Type 'o'(Options) to see these options again.\n\n");
 		}
+		//Outputs room description
 		else if(line == "l")
 			printf("%s\n\n", f[i][j]->description.c_str());
-
+		//Outputs possible actions in room
 		else if(line == "a")
 		{
 			for(sit = f[i][j]->actions.begin(); sit !=  f[i][j]->actions.end(); sit++)
 				printf("%s\n", sit->first.c_str());
 			printf("\n");
 		}
+		//If player wants to move a direction
 		else if((line == "n")||(line == "s")||(line == "w")||(line == "e"))
 		{
+			//Checks to see if move is possible
 			nit = f[i][j]->adj.find(line);
+			//If not, outputs error statement
 			if(nit == f[i][j]->adj.end())
 				printf("Cannot go that direction.\n\n");
+			//If door is locked, tells player
 			else if(!nit->second->lock)
 				printf("Door is locked, need a key to access\n\n");
+			//Else, moves to space
 			else
 			{
 				i = nit->second->loc.first;
 				j = nit->second->loc.second;
+				//Outputs room description
+				printf("%s\n\n", f[i][j]->description.c_str());
+				//Outputs special dialogue associated with that area
 				if((i == 1)&&(j == 0)&&(d == 0))
 				{
 					slow_print("\"I have to find my family.\"\n\n", 30);
 					d++;
 				}
-				printf("%s\n\n", f[i][j]->description.c_str());
 			}
 		}
+		//If no actions line up, outputs error message
 		else
 			printf("Invalid input.\n\n");
 	}
@@ -321,19 +365,22 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
+/*Function to read in data*/
 void read_in(vector<vector<Room *>> &f, ifstream &fin)
 {
-	string line, cd, action;
-	int i, j, k, l, c;
-	stringstream ss;
-	Action *a;
-	Room *r;
+	string line, cd, action;		//Strings to format data
+	int i, j, k, l, c;				//Ints to format read in
+	stringstream ss;				//Stringstream to extract data
+	Action *a;						//Tmp action struct
+	Room *r;						//Tmp room struct
 
+//Resizes graph and reads in data
 	f.resize(6);
 	for(i = 0; i < 6; i++)
 	{
 		for(j = 0; j < 8; j++)
 		{
+			//Creates a room pointer then reads in all of its data
 			getline(fin, line);
 			r = new Room;
 			ss.clear();
@@ -342,12 +389,14 @@ void read_in(vector<vector<Room *>> &f, ifstream &fin)
 			ss >> k;
 			for(l = 0; l < k; l++)
 			{
+				//Reads in possible directions
 				ss >> cd;
 				r->directions.push_back(cd);
 			}
 			ss >> k;
 			for(l = 0; l < k; l++)
 			{
+				//Creates a action pointer then reads in all of its data
 				a = new Action;
 				getline(fin, line);
 				ss.clear();
@@ -355,6 +404,7 @@ void read_in(vector<vector<Room *>> &f, ifstream &fin)
 				ss >> a->check >> c >> action >> a->item;
 				replace(action.begin(), action.end(), '-', ' ');
 				getline(fin, a->description);
+				//Checks if action is a key
 				if(c != -1)
 				{
 					a->lock.first = c / 8;
@@ -365,20 +415,24 @@ void read_in(vector<vector<Room *>> &f, ifstream &fin)
 					a->lock.first = -1;
 					a->lock.second = -1;
 				}
+				//Adds action keyed on its pointer to the map
 				r->actions.insert(make_pair(action, a));			
 			}
 			getline(fin, r->description);
 			r->loc.first = i;
 			r->loc.second = j;
+			//Pushes room pointer onto the graph
 			f[i].push_back(r);
 		}
 	}
 }
 
+/*Function to create adjacency lists*/
 void adj_list(vector<vector<Room *>> &f)
 {
-	size_t i, j, k;
+	size_t i, j, k;			//Variables to keep track of size
 
+//Iterates through each room's vector creating an adjacency list
 	for(i = 0; i < f.size(); i++)
 	{
 		for(j = 0; j < f[i].size(); j++)
@@ -398,11 +452,13 @@ void adj_list(vector<vector<Room *>> &f)
 	}
 }
 
+/*Function to delete allocated memory*/
 void clean(vector<vector<Room *>> &f)
 {
-	map<string, Action *>::iterator sit;
-	size_t i, j;
+	map<string, Action *>::iterator sit;	//Map iterator of actions
+	size_t i, j;							//Variables to keep track of size
 	
+//Iterates through graph and each room's actions deleting all pointers	
 	for(i = 0; i < f.size(); i++)
 	{
 		for(j = 0; j < f[i].size(); j++)
