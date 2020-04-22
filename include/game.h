@@ -10,32 +10,35 @@ using namespace std;
 using std::this_thread::sleep_for;
 using std::chrono::milliseconds;
 
-//void slow_print(const string&, unsigned int);   //Prototype to print type writer style
-
 /*Player data structure to hold all data pertaining to 
  rooms*/
 struct Player
 {
-    int Courage;
-    int Willpower;
+    //Hp potion
+	int Courage;
+    //Player stats
+	int Willpower;
     int Strength;
     int Agility;
     int Accuracy;
     int Defense ;
-    bool BoneSaw;
+    //Game weapons
+	bool BoneSaw;
     bool Scythe;
     bool DOG;
     bool Scalpel;
 };
+
 /*Action data structure to hold all data pertaining to
   actions*/
 struct Action
 {
-    bool check;
-    string item;
-    string description;
-    pair <int, int> lock;
+    bool check;						//Checks if action has been done
+    string item;					//Item related to the action
+    string description;				//Description of action
+    pair <int, int> lock;			//Cordinate to unlock door if item is a key
 };
+
 /*Room data structure to hold all data pertaining to
 rooms*/
 struct Room
@@ -51,16 +54,19 @@ struct Room
 /*Function to save current game state*/
 bool Save(int i, int j, int gs, int cf, int d, vector<vector<Room *>> f1, vector<vector<Room *>> f2, Player *p)
 {
-	size_t k;
-	string line;
-	ofstream fout;
-	int row, col, fc;
-	vector<vector<Room *>> f;
-	map<string, Action *>::iterator nit;
+	size_t k;								//Variable for formatting
+	string line;							//String to format data
+	ofstream fout;							//Output file
+	int row, col, fc;						//Variables for formatting
+	vector<vector<Room *>> f;				//Variable for formatting
+	map<string, Action *>::iterator nit;	//Action iterator
 
-	fout.open("save.txt");
+//Opens save file
+	fout.open("../data/save.txt");
+//If save fails return false
 	if(fout.fail())
 		return false;
+//Formats and outputs all data in save file
 	fout << gs << " " << cf << " " << i << " " << j << " " << d << "\n";
 	fout << p->Courage << " " << p->Willpower << " " << p->Strength << " "
 		 << p->Agility << " " << p->Accuracy << " " << p->Defense << " ";
@@ -118,7 +124,7 @@ bool Save(int i, int j, int gs, int cf, int d, vector<vector<Room *>> f1, vector
 			}
 		}
 	}
-
+//Closes file
 	fout.close();
 	return true;
 }
