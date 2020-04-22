@@ -69,7 +69,6 @@ struct Player{
 struct Enemy{
 
 	int hp;
-	vector<Attack> attacks;
 	void TakeDamage(int amount);
 
 };
