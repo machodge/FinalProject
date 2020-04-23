@@ -11,6 +11,8 @@ using namespace std;
 void read_in(vector<vector<Room *>> &f, ifstream &fin);		//Prototype to read in rooms
 void adj_list(vector<vector<Room *>> &f);					//Prototype to create adjacency lists
 void clean(vector<vector<Room *>> &f);						//Prototype to free allocated data
+bool spawn(int i, int j, int cf);							//Prototype to check if area allows enemy spawn
+bool game_stage(int gs);									//Prototype that roles for a chance to start combat
 
 int main()
 {
@@ -849,4 +851,31 @@ void clean(vector<vector<Room *>> &f)
 			delete f[i][j];
 		}
 	}
+}
+
+/*Function to check if area allows enemy spawn*/
+bool spawn(int i, int j, int cf)
+{
+	if((i == 1)&&(cf == 1))
+		return true;
+	else if((i == 2)&&(j == 3)&&(cf == 1))
+		return true;
+	else if((i == 3)&&(j == 3)&&(cf == 1))
+		return true;
+	else if((i == 4)&&(j >= 3)&&(j <= 7)&&(cf == 1))
+		return true;
+	else if((i == 1)&&(j >= 1)&&(j <= 5)&&(cf == 2))
+		return true;
+	else if((i == 2)&&(j >= 1)&&(j <= 5)&&(cf == 2))
+		return true;
+	else if((i == 3)&&(j >= 3)&&(j <= 6)&&(cf == 2))
+		return true;
+	else if((i == 4)&&(j >= 3)&&(j <= 6)&&(cf == 2))
+		return true;
+	return false;	
+}
+
+/*Function that roles for a chance to start combat*/
+bool game_stage(int gs)
+{
 }
