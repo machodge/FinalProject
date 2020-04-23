@@ -447,6 +447,8 @@ int main()
 				{
 					gs++;
 					raise_stat(mobs);
+					slow_print("The morgue...", 55);
+					cin.get();
 				}
 				else if((i == 3)&&(j == 0)&&(cf == 2)&&(line == "Search Drawer 2"))
 				{
@@ -637,6 +639,22 @@ int main()
 			printf("You have level %d agility.\n", p->Agility);
 			printf("You have level %d accuracy.\n", p->Accuracy);
 			printf("You have level %d defense.\n\n", p->Defense);
+			if(gs < 7)
+				printf("Current Objective:\n");
+			if(gs == 0)
+				printf("Search for clues about your situation.\n\n");
+			else if(gs == 1)
+				printf("Search for clues in room 204.\n\n");
+			else if(gs == 2)
+				printf("Search for clues at the reception desk.\n\n");
+			else if(gs == 3)
+				printf("Investigate the morgue.\n\n");
+			else if(gs == 4)
+				printf("Search for clues in room 202.\n\n");
+			else if(gs == 5)
+				printf("Cut your way to the doctor's office.\n\n");
+			else if(gs == 6)
+				printf("Find your truth in the doctor's office.\n\n");
 			printf("Inventory:\n");
 			printf("%d Courage\n", p->Courage);
 			if(p->BoneSaw)
@@ -708,6 +726,11 @@ int main()
 				else if((i == 1)&&(j == 3)&&(d == 1))
 				{
 					slow_print("\"It feels like I'm being followed.\"\n\n", 40);
+					d++;
+				}
+				else if((i == 1)&&(j == 0)&&(gs == 2)&&(d == 2))
+				{
+					slow_print("\"The reception desk should have more clues.\"\n\n",40);
 					d++;
 				}
 				else if((i == 1)&&(j == 7)&&(gs == 0))
