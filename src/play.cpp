@@ -326,7 +326,7 @@ int main()
 						cin.get();
 						slow_print("\"Find your truth.\"", 55);
 						cin.get();
-						slow_print("The man gives me a key, doctors office is now accessible.\n", 30);
+						slow_print("The man gives me a key; doctors office is now accessible.\n", 30);
 					}
 					else
 					{
@@ -411,28 +411,28 @@ int main()
 				{
 					slow_print("The note reassures you.", 30);
 					cin.get();
-					slow_print("You found stability, defense increased!\n", 30);
+					slow_print("You found stability; defense increased!\n", 30);
 				}
 				else if((i == 3)&&(j == 7)&&(cf == 1)&&(line == "Search Stalls"))
-					slow_print("You found courage, you can use this to increase your willpower(hp).\n", 30);
+					slow_print("You found courage; you can use this to increase your willpower(hp).\n", 30);
 				else if((i == 5)&&(j == 4)&&(cf == 1)&&(line == "Turn off tv"))
-					slow_print("You found courage, you can use this to increase your willpower(hp).\n", 30);
+					slow_print("You found courage; you can use this to increase your willpower(hp).\n", 30);
 				else if((i == 5)&&(j == 5)&&(cf == 1)&&(line == "Talk"))
-					slow_print("You found courage, you can use this to increase your willpower(hp).\n", 30);
+					slow_print("You found courage; you can use this to increase your willpower(hp).\n", 30);
 				else if((i == 5)&&(j == 5)&&(cf == 1)&&(line == "Talk?"))
-					slow_print("You found delusion, strength increased!\n", 30);
+					slow_print("You found delusion; strength increased!\n", 30);
 				else if((i == 0)&&(j == 4)&&(cf == 2)&&(line == "Check Cabinets"))
 				{
-					slow_print("You found a key, kitchen is now accessible.", 30);
+					slow_print("You found a key; kitchen is now accessible.", 30);
 					cin.get();
 					slow_print("\"You know what?\"", 40);
 					cin.get();
 					slow_print("\"I actually am hungry, I think I'll do just that!\"\n", 40);
 				}
 				else if((i == 0)&&(j == 6)&&(cf == 2)&&(line == "Sit at table"))
-					slow_print("You found courage, you can use this to increase your willpower(hp).\n", 30);
+					slow_print("You found courage; you can use this to increase your willpower(hp).\n", 30);
 				else if((i == 1)&&(j == 0)&&(cf == 2)&&(line == "Sit in chair"))
-					slow_print("You found stability, defense increased!\n", 30);
+					slow_print("You found stability; defense increased!\n", 30);
 				else if((i == 1)&&(j == 6)&&(cf == 2)&&(line == "Check out menu"))
 				{
 					slow_print("\"Today's menu is\"", 40);
@@ -441,7 +441,7 @@ int main()
 					cin.get();
 					slow_print("\"Dear god...\"", 40);
 					cin.get();
-					slow_print("You found fear, agility increased!\n", 30);
+					slow_print("You found fear; agility increased!\n", 30);
 				}
 				else if((i == 3)&&(j == 0)&&(cf == 2)&&(line == "Search Drawer 1"))
 				{
@@ -460,7 +460,7 @@ int main()
 				}
 				else if((i == 3)&&(j == 7)&&(cf == 2)&&(line == "Open body drawer"))
 				{
-					slow_print("You found delusion, strength increased!", 30);
+					slow_print("You found delusion; strength increased!", 30);
 					cin.get();
 					slow_print("...", 100);
 					cin.get();
@@ -487,7 +487,7 @@ int main()
 					raise_stat(mobs);
 				}
 				else if((i == 5)&&(j == 7)&&(cf == 2)&&(line == "Look at table"))
-					slow_print("You found fear, agility increased.\n",30);
+					slow_print("You found fear; agility increased.\n",30);
 				else if((i == 5)&&(j == 7)&&(cf == 2)&&(line == "Look at table!")&&(!sit->second->check))
 				{
 					slow_print("She's holding a torn diary page.", 30);
@@ -770,7 +770,7 @@ int main()
 						{
 							if(gs != 5)
 								slow_print("You survived the night terrors this time.\n\n", 30);
-							else if((i == 3)&&(j == 3)&&(gs == 5))
+							else if(((i == 3)||(i == 4))&&(j == 3)&&(gs == 5))
 							{
 								slow_print("This one was wearing a nametag.", 30);
 								cin.get();
@@ -783,7 +783,7 @@ int main()
 						}
 						else
 						{
-							if((i == 3)&&(j == 3)&&(gs == 5))
+							if(((i == 3)||(i == 4))&&(j == 3)&&(gs == 5))
 							{
 								mobs[3]->health -= 30;
 								mobs[3]->accuracy -= 5;
