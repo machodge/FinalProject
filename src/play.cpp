@@ -27,11 +27,12 @@ int main()
 	string line, cd;						//Strings to read in data
 	ifstream fin;							//File in to read from file
 	Player *p;								//Pointer to the player class
+	Enemy *e;
 	int i, j;								//Variables for game progression
 
 //Allocating memory to the player
 	p = new Player;
-
+	e = new Enemy;
 //Checks for saved games, error checks accordingly, then opens and reads from proper file
     printf("Welcome to Insomnia. (Press enter to continue)");
     cin.get();
@@ -48,7 +49,7 @@ int main()
 	
 	if(cd == "LS")
 	{
-		fin.open("../data/save.txt");
+		fin.open("data/save.txt");
 		getline(fin, line);
 		ss.clear();
 		ss.str(line);
@@ -67,14 +68,14 @@ int main()
 		    ss.clear();
 	        ss.str(line);
 		    ss >> p->Courage >> p->Willpower >> p->Strength >> p->Agility >> p->Accuracy >> p->Defense
-			   >> p->BoneSaw >> p->Scythe >> p->DOG >> p->Scalpel >> p->Knife;
+			   >> p->Death >> p->BoneSaw >> p->Scythe >> p->DOG >> p->Scalpel >> p->Knife;
 		}
 	}
     
 	//If new game reads in default gamestate and player data
 	if(cd == "NG")
 	{
-		fin.open("../data/game.txt");
+		fin.open("data/game.txt");
 		getline(fin, line);
 		ss.clear();
 		ss.str(line);
@@ -83,7 +84,7 @@ int main()
 		ss.clear();
 		ss.str(line);
 		ss >> p->Courage >> p->Willpower >> p->Strength >> p->Agility >> p->Accuracy >> p->Defense
-		   >> p->BoneSaw >> p->Scythe >> p->DOG >> p->Scalpel >> p->Knife;
+		   >> p->Death >> p->BoneSaw >> p->Scythe >> p->DOG >> p->Scalpel >> p->Knife;
 		//Asks a question that boosts one stat
 		slow_print("How would you describe yourself?\n", 30);
 		slow_print("Paranoid(Type 'p'), Fearful(Type 'f'), Delusional(Type 'd'), Brave(Type 'c'), or Stable(Type 's')?\n", 30);
@@ -737,19 +738,51 @@ int main()
 						r++;
 					}
 				}
+				e->health = 100;
+				e->damage = 10;
+				e->speed = 1;
+				e->accuracy = 90;
 				//Generate monster
 				if(spawn(i, j, cf))
 				{
 					if(game_stage(gs))
 					{
-						printf("Gotcha!\n");
+						if(combat(p, e))
+							slow_print("You survived the night terrors this time.\n\n", 30);
+						else
+						{
+							slow_print("Willpower deplenished, you can't go on.", 30);
+							cin.get();
+                            if(p->Death == 3)
+                            {
+                                slow_print("The night terrors won.", 30);
+                                cin.get();
+                                slow_print("The man in white finds you dead in the hallway.", 30);
+                                cin.get();
+                                break;
+                            }
+							slow_print("You wake up in a white bed, it's still night out.\n\n", 30);
+							if(cf == 2)
+							{
+								cf = 1;
+								f2 = f;
+								f = f1;
+							}
+							i = 0;
+							j = 0;
+							if(p->Death == 0)
+								p->Willpower = 50;
+							else if(p->Death == 1)
+								p->Willpower = 25;
+							else if(p->Death == 2)
+								p->Willpower = 10;
+							p->Death++;
+						}
 					}
 				}
 			}
 		}
-		//If no actions line up, outputs error message
-		else
-			printf("Invalid input.\n\n");
+	//Does nothing for improper input
 	}
 
 //Deletes all allocated memory to prevent memory leaks

@@ -71,11 +71,22 @@ pair<int, bool> playerTurn(Player *player) {
 	srand(time(NULL));
 
 	cout << "Player's turn\n";
-	cout << "1) Attack\n2) Heal (" << player->Courage << " in inventory)\n";
-	cout << "What will you do?\n";
+	cout << "1) Attack\n2) Replenish Willpower(hp) (" << player->Courage << " in inventory)\n";
+	cout << "What will you do?\n\n";
 	
 	while (true) {
+		
 		cin >> action;
+		
+		if((action != 1)&&(action != 2))
+		{
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			cout << "Invalid action, please try again...\n\n";
+			continue;
+		}
+		
+		printf("\n");
 
 		if (action == 1) {
 			if (player->DOG || player->BoneSaw || player->Scalpel || player->Scythe) {
@@ -101,14 +112,21 @@ pair<int, bool> playerTurn(Player *player) {
 					weapons[counter] = "Scalpel";
 				}
 				if (player->Knife) {
-					cout << counter << ") The Knife...\n";
+					cout << counter << ") Knife...\n";
 					weapons[counter] = "Knife";
 				}
 				while(true) {
 					cin >> weaponChoice;
 					if (weaponChoice > 0 && weaponChoice < 5 && weapons[weaponChoice] != "") break;
-					else cout << "Invalid action, please try again\n";
+					else
+					{
+            			cin.clear();
+            			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            			cout << "Invalid action, please try again...\n\n";
+            			continue;
+					}
 				}
+				printf("\n");
 				if (weapons[weaponChoice] == "Saw") {
 					player->Agility = 0;
 					int hitChance = 50 + ((player->Accuracy/5.) * 35.);
@@ -173,18 +191,18 @@ pair<int, bool> playerTurn(Player *player) {
 
 		else if (action == 2) {
 			if (player->Courage > 0) {
-				cout << "You Willpower has been restored!\n";
+				cout << "You look at a picture of your family. Willpower(hp) replenished!\n";
 				player->Willpower = 100;
 				player->Courage--;
 				return make_pair<int, bool>(0, true);
 			}
-			cout << "You have no Courage, please try another option...\n";
+			cout << "You have no Courage, please try another option...\n\n";
 			continue;
 		}
 
-		else {
-			cout << "invalid action, please try again...\n";
-		}
+	//	else {
+	//		cout << "invalid action, please try again...\n";
+	//	}
 	}
 }
 

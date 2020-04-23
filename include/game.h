@@ -4,6 +4,8 @@
 
 using namespace std;
 
+//bool combat(Player *player, Enemy *enemy);
+
 /*Player data structure to hold all data pertaining to 
  rooms*/
 struct Player
@@ -15,7 +17,8 @@ struct Player
     int Strength;
     int Agility;
     int Accuracy;
-    int Defense ;
+    int Defense;
+	int Death;
     //Game weapons
 	bool BoneSaw;
     bool Scythe;
@@ -56,3 +59,5 @@ struct Room
     vector<string> directions;      //Allowed directions
     map<string, Room *> adj;        //Accessable points from room
 };
+
+bool combat(Player *player, Enemy *enemy);

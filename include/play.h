@@ -21,14 +21,14 @@ bool Save(int i, int j, int gs, int cf, int d, int r, vector<vector<Room *>> f1,
 	map<string, Action *>::iterator nit;	//Action iterator
 
 //Opens save file
-	fout.open("../data/save.txt");
+	fout.open("data/save.txt");
 //If save fails return false
 	if(fout.fail())
 		return false;
 //Formats and outputs all data in save file
 	fout << gs << " " << cf << " " << i << " " << j << " " << d << " " << r << "\n";
 	fout << p->Courage << " " << p->Willpower << " " << p->Strength << " "
-		 << p->Agility << " " << p->Accuracy << " " << p->Defense << " ";
+		 << p->Agility << " " << p->Accuracy << " " << p->Defense << " " << p->Death << " ";
 	if(p->BoneSaw)
 		fout << "1 ";
 	else 

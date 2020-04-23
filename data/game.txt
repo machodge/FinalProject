@@ -1,5 +1,5 @@
 0 1 0 0 0 -1
-0 100 0 0 0 0 0 0 0 0 0
+0 100 0 0 0 0 0 0 0 0 0 0
 1 1 S 2
 0 8 Search-Dresser Key 
 You find a key with a note attached to it.
@@ -9,7 +9,7 @@ Room 201: The room is cold and dimly lit, there is a dresser to the left and a w
 1 1 S 1
 0 -1 Search-Room Courage
 You found courage, you can use this to increase your willpower(hp).  
-Room 203: There's been a struggle in this room. The bed is a mess and the dresser is knocked over. "I'd hate to know what happened here."
+Room 203: There's been a struggle in this room. The bed is a mess and the dresser is knocked over.
 0 1 S 3
 0 -1 Search-Dresser Fear
 You found fear, agility increased!
