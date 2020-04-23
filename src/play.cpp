@@ -1,4 +1,5 @@
-#include "game.h"
+#include "../include/game.h"
+#include "../include/play.h"
 #include<algorithm>
 #include<iostream>
 #include<sstream>
@@ -45,7 +46,7 @@ int main()
 	
 	if(cd == "LS")
 	{
-		fin.open("data/save.txt");
+		fin.open("../data/save.txt");
 		getline(fin, line);
 		ss.clear();
 		ss.str(line);
@@ -71,7 +72,7 @@ int main()
 	//If new game reads in default gamestate and player data
 	if(cd == "NG")
 	{
-		fin.open("data/game.txt");
+		fin.open("../data/game.txt");
 		getline(fin, line);
 		ss.clear();
 		ss.str(line);
@@ -877,5 +878,6 @@ bool spawn(int i, int j, int cf)
 /*Function that roles for a chance to start combat*/
 bool game_stage(int gs)
 {
+	gs = 0;
 	return false;
 }

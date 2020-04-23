@@ -3,7 +3,7 @@
 #include <map>
 #include <cmath>
 //#include "../headers/inventory.h"
-#include "combat.h"
+#include "../include/combat.h"
 using namespace std;
 
 Items::Items() {
