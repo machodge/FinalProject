@@ -155,7 +155,6 @@ int main()
 		//Formatting for mid-game scene
 		if(r != -1)
 			r++;
-//		cout << r << "\n";
 		//Takes user input
 		getline(cin, line);
 		printf("\n");
@@ -878,4 +877,5 @@ bool spawn(int i, int j, int cf)
 /*Function that roles for a chance to start combat*/
 bool game_stage(int gs)
 {
+	return false;
 }
