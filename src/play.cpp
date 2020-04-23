@@ -2,9 +2,11 @@
 #include "../include/play.h"
 #include<algorithm>
 #include<iostream>
+#include<stdlib.h>
 #include<sstream>
 #include<fstream>
 #include<vector>
+#include<time.h>
 #include<map>
 
 using namespace std;
@@ -434,6 +436,8 @@ int main()
 					cin.get();
 					slow_print("You found fear, agility increased!\n", 30);
 				}
+				else if((i == 3)&&(j == 0)&&(cf == 2)&&(line == "Search Drawer 1"))
+					gs++;
 				else if((i == 3)&&(j == 0)&&(cf == 2)&&(line == "Search Drawer 2"))
 				{
 					printf("April 15: Mom says we hav to go far away. She says daddy is not himself. She says its not safe but if we\n");
@@ -443,7 +447,6 @@ int main()
 					printf("\n");
 					slow_print("\"Daddy believes in you too, sweety\"", 40);
 					cin.get();
-					gs++;
 				}
 				else if((i == 3)&&(j == 7)&&(cf == 2)&&(line == "Open body drawer"))
 				{
@@ -468,6 +471,8 @@ int main()
 					cin.get();
 					slow_print("\"I hear it all!\"\n", 40);
 				}
+				else if((i == 4)&&(j == 7)&&(cf == 2)&&(line == "Open body drawer"))
+					gs++;
 				else if((i == 5)&&(j == 7)&&(cf == 2)&&(line == "Look at table"))
 					slow_print("You found fear, agility increased.\n",30);
 				else if((i == 5)&&(j == 7)&&(cf == 2)&&(line == "Look at table!")&&(!sit->second->check))
@@ -491,7 +496,6 @@ int main()
 					f2 = f;
 					f = f1;
 					cf = 1;
-					gs++;
 				}
 				else if((i == 5)&&(j == 0)&&(cf == 1)&&(line == "Search Cabinet"))
 				{
@@ -733,6 +737,14 @@ int main()
 						r++;
 					}
 				}
+				//Generate monster
+				if(spawn(i, j, cf))
+				{
+					if(game_stage(gs))
+					{
+						printf("Gotcha!\n");
+					}
+				}
 			}
 		}
 		//If no actions line up, outputs error message
@@ -856,6 +868,7 @@ void clean(vector<vector<Room *>> &f)
 /*Function to check if area allows enemy spawn*/
 bool spawn(int i, int j, int cf)
 {
+	//Return true if in hallway, else return false
 	if((i == 1)&&(cf == 1))
 		return true;
 	else if((i == 2)&&(j == 3)&&(cf == 1))
@@ -878,6 +891,43 @@ bool spawn(int i, int j, int cf)
 /*Function that roles for a chance to start combat*/
 bool game_stage(int gs)
 {
-	gs = 0;
+	int r;		//Variable for random number
+
+//Seed random number generator then set r equal 
+//to a random number between 1 and 10
+	srand(time(NULL));
+	r = rand() % 10 + 1;
+
+//Depending on the current game stage 
+//return true. This controls monster 
+//spawn rate
+	if(gs == 0)
+	{
+		if(r < 2)
+			return true;
+	}
+	else if(gs == 1)
+	{
+		if(r < 3)
+			return true;
+	}
+	else if(gs == 2)
+	{
+		if(r < 4)
+			return true;
+	}
+	else if(gs == 3)
+	{
+		if(r < 5)
+			return true;
+	}
+	else if(gs == 4)
+	{
+		if(r < 6)
+			return true;
+	}
+	else if(gs == 5)
+		return true;
+
 	return false;
 }
