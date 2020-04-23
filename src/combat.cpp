@@ -11,7 +11,7 @@ int enemyTurn(Player *player, Enemy *enemy);
 
 //make combat a bool that will return false once it is over.
 bool combat(Player *player, Enemy *enemy) {
-
+	int eh = enemy->health;
 	//run the combat loop until either the enemies or the player is dead
 	while (true) {
 		int speed = player->Agility;
@@ -23,6 +23,7 @@ bool combat(Player *player, Enemy *enemy) {
 			if (enemy->health <= 0) {
 				player->Agility = speed;
 				player->Defense = defence;
+				enemy->health = eh;
 				return true;
 				
 			}
@@ -34,14 +35,14 @@ bool combat(Player *player, Enemy *enemy) {
 			}
 			else if (!playerDamage.second) cout << "Your attack missed!\n";
 			player->Willpower -= enemyDamage*((8.-player->Defense)/8.);
-			if (player->Willpower <= 0) return false;
+			if (player->Willpower <= 0){enemy->health = eh; return false;}
 			if (enemyDamage == 0) cout << "Your opponent's attack missed!\n";
 			else cout << "Your opponent hit you for " << ceil(enemyDamage*((8.-player->Defense)/8.)) << " damage! You have " << player->Willpower << " Willpower left!\n";
 				
 		}
 		else {
 			player->Willpower -= enemyDamage*((8.-player->Defense)/8.);
-			if (player->Willpower <= 0) return false;
+			if (player->Willpower <= 0){enemy->health = eh; return false;}
 			if (enemyDamage == 0) cout << "Your opponents's attack missed!\n";
 			else cout << "Your opponent hit you for " << ceil(enemyDamage*((8.-player->Defense)/8.)) << " damage! You have " << player->Willpower << " Willpower left!\n";
 			
@@ -49,6 +50,7 @@ bool combat(Player *player, Enemy *enemy) {
 			if (enemy->health <= 0) {
 				player->Agility = speed;
 				player->Defense = defence;
+				enemy->health = eh;
 				return true;
 			}
 			if (playerDamage.first != 0) {
@@ -199,10 +201,6 @@ pair<int, bool> playerTurn(Player *player) {
 			cout << "You have no Courage, please try another option...\n\n";
 			continue;
 		}
-
-	//	else {
-	//		cout << "invalid action, please try again...\n";
-	//	}
 	}
 }
 

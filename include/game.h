@@ -31,7 +31,8 @@ struct Player
   enemies*/
 struct Enemy 
 {
-    int health;
+    string type;
+	int health;
     int damage;
     int speed;
     int accuracy;

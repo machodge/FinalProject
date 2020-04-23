@@ -103,3 +103,46 @@ void slow_print(const string& message, unsigned int millis_per_char)
     }
 }
 
+void make_enemy(vector<Enemy *> &mobs)
+{
+	int i;
+	Enemy *e;
+
+	for(i = 0; i <= 3; i++)
+	{
+		e = new Enemy;
+		if(i == 0)
+		{
+			e->type = "A small girl with a crushed windpipe approaches you.\n";
+			e->health = 70;
+			e->damage = 5;
+			e->speed = 0;
+			e->accuracy = 90;
+		}
+		else if(i == 1)
+		{
+			e->type = "A woman with a hole in her head approaches you.\n";
+			e->health = 60;
+			e->damage = 10;
+			e->speed = 0;
+			e->accuracy = 85;
+		}
+		else if(i == 2)
+		{
+			e->type = "An unrecognizable monster approaches you.\n";
+			e->health = 50;
+			e->damage = 15;
+			e->speed = 0;
+			e->accuracy = 80;
+		}
+		else
+		{
+			e->type = "A man in white approaches you.\n";
+			e->health = 60;
+			e->damage = 10;
+			e->speed = 0;
+			e->accuracy = 90;
+		}
+		mobs.push_back(e);
+	}
+}

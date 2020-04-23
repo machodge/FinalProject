@@ -11,11 +11,14 @@
 
 using namespace std;
 
-void read_in(vector<vector<Room *>> &f, ifstream &fin);		//Prototype to read in rooms
-void adj_list(vector<vector<Room *>> &f);					//Prototype to create adjacency lists
-void clean(vector<vector<Room *>> &f);						//Prototype to free allocated data
-bool spawn(int i, int j, int cf);							//Prototype to check if area allows enemy spawn
-bool game_stage(int gs);									//Prototype that roles for a chance to start combat
+void read_in(vector<vector<Room *>> &f, ifstream &fin);			//Prototype to read in rooms
+void adj_list(vector<vector<Room *>> &f);						//Prototype to create adjacency lists
+void clean(vector<vector<Room *>> &f);							//Prototype to free allocated data
+void clean_m(vector<Enemy *> &mobs);							//Prototype to free allocated data
+bool spawn(int i, int j, int cf);								//Prototype to check if area allows enemy spawn
+bool game_stage(int gs);										//Prototype that roles for a chance to start combat
+Enemy* renemy(vector<Enemy *> mobs, int gs);					//Prototype to return a random enemy
+void raise_stat(vector<Enemy *> &mobs);							//Prototype to raise enemy stats
 
 int main()
 {
@@ -23,16 +26,17 @@ int main()
 	vector<vector<Room *> > f, f1, f2;		//Game map
 	map<string, Room *>::iterator nit;		//Map iterator
 	int d, gs, cf, row, col, r;				//Variables to keep track of game progress
+	vector<Enemy *> mobs;					//Vector of enemy types
 	stringstream ss;						//Stringstream for data read in
 	string line, cd;						//Strings to read in data
 	ifstream fin;							//File in to read from file
-	Player *p;								//Pointer to the player class
-	Enemy *e;
+	Player *p;								//Pointer to the player class								
 	int i, j;								//Variables for game progression
 
 //Allocating memory to the player
 	p = new Player;
-	e = new Enemy;
+//Creates enemies
+	make_enemy(mobs);
 //Checks for saved games, error checks accordingly, then opens and reads from proper file
     printf("Welcome to Insomnia. (Press enter to continue)");
     cin.get();
@@ -192,6 +196,7 @@ int main()
 			i = 0;
 			j = 0;
 			gs++;
+			raise_stat(mobs);
 		}
 		//Pre-endgame scene
 		else if((i == 2)&&(j == 0)&&(cf == 1)&&(gs == 4)&&(line == "n"))
@@ -219,6 +224,7 @@ int main()
 				i = 0;
 				j = 0;
 				gs++;
+				raise_stat(mobs);
 			}
 		}
 		//If user inputs an action
@@ -438,7 +444,10 @@ int main()
 					slow_print("You found fear, agility increased!\n", 30);
 				}
 				else if((i == 3)&&(j == 0)&&(cf == 2)&&(line == "Search Drawer 1"))
+				{
 					gs++;
+					raise_stat(mobs);
+				}
 				else if((i == 3)&&(j == 0)&&(cf == 2)&&(line == "Search Drawer 2"))
 				{
 					printf("April 15: Mom says we hav to go far away. She says daddy is not himself. She says its not safe but if we\n");
@@ -473,7 +482,10 @@ int main()
 					slow_print("\"I hear it all!\"\n", 40);
 				}
 				else if((i == 4)&&(j == 7)&&(cf == 2)&&(line == "Open body drawer"))
+				{
 					gs++;
+					raise_stat(mobs);
+				}
 				else if((i == 5)&&(j == 7)&&(cf == 2)&&(line == "Look at table"))
 					slow_print("You found fear, agility increased.\n",30);
 				else if((i == 5)&&(j == 7)&&(cf == 2)&&(line == "Look at table!")&&(!sit->second->check))
@@ -719,6 +731,7 @@ int main()
 						cin.get();
 						printf("\n");
 						gs++;
+						raise_stat(mobs);
 					}
 				}
 				else if((i == 1)&&(j == 1)&&(gs == 1))
@@ -738,26 +751,58 @@ int main()
 						r++;
 					}
 				}
-				e->health = 100;
-				e->damage = 10;
-				e->speed = 1;
-				e->accuracy = 90;
 				//Generate monster
-				if(spawn(i, j, cf))
+				else if(spawn(i, j, cf))
 				{
 					if(game_stage(gs))
 					{
-						if(combat(p, e))
-							slow_print("You survived the night terrors this time.\n\n", 30);
+						if((i == 3)&&(j == 3)&&(gs == 5))
+						{
+							slow_print("\"Come on.\"", 55);
+							cin.get();
+							slow_print("\"Find your truth.\"", 55);
+							cin.get();
+							mobs[3]->health += 30;
+							mobs[3]->accuracy += 5;
+							mobs[3]->damage += 10;
+						}
+						if(combat(p, renemy(mobs, gs)))
+						{
+							if(gs != 5)
+								slow_print("You survived the night terrors this time.\n\n", 30);
+							else if((i == 3)&&(j == 3)&&(gs == 5))
+							{
+								slow_print("This one was wearing a nametag.", 30);
+								cin.get();
+								slow_print("\"Dr. Graham.\"", 30);
+								cin.get();
+								gs++;
+							}
+							else
+								slow_print("There's so much blood on your hands...\n\n", 30);
+						}
 						else
 						{
+							if((i == 3)&&(j == 3)&&(gs == 5))
+							{
+								mobs[3]->health -= 30;
+								mobs[3]->accuracy -= 5;
+								mobs[3]->damage -= 10;
+							}
 							slow_print("Willpower deplenished, you can't go on.", 30);
+							cin.get();
 							cin.get();
                             if(p->Death == 3)
                             {
-                                slow_print("The night terrors won.", 30);
+                                if(gs != 5)
+									slow_print("The night terrors won.", 30);
+								else
+									slow_print("The man in white won.", 30);
                                 cin.get();
-                                slow_print("The man in white finds you dead in the hallway.", 30);
+								if(gs != 5)
+									slow_print("The man in white finds you dead in the hallway.", 30);
+								else
+									slow_print("They broke you.", 30);
                                 cin.get();
                                 break;
                             }
@@ -786,6 +831,7 @@ int main()
 	}
 
 //Deletes all allocated memory to prevent memory leaks
+	clean_m(mobs);
 	clean(f1);
 	clean(f2);
 	delete p;
@@ -898,6 +944,15 @@ void clean(vector<vector<Room *>> &f)
 	}
 }
 
+/*Function to delete allocated memory*/
+void clean_m(vector<Enemy *> &mobs)
+{
+	size_t i;
+
+	for(i = 0; i < mobs.size(); i++)
+		delete mobs[i];
+}
+
 /*Function to check if area allows enemy spawn*/
 bool spawn(int i, int j, int cf)
 {
@@ -963,4 +1018,38 @@ bool game_stage(int gs)
 		return true;
 
 	return false;
+}
+
+/*Function that returns a random enemy*/
+Enemy* renemy(vector<Enemy *> mobs, int gs)
+{
+	int r;
+
+	srand(time(NULL));
+	r = rand() % 3;
+
+	if(gs < 5)
+	{
+		slow_print(mobs[r]->type, 30);
+		return mobs[r];
+	}
+	else
+	{
+		slow_print(mobs[3]->type, 30);
+		return mobs[3];
+	}
+}
+
+/*Function to raise enemy stats*/
+void raise_stat(vector<Enemy *> &mobs)
+{
+	size_t i;
+
+	for(i = 0; i < mobs.size(); i++)
+	{
+		mobs[i]->health += 10;
+		mobs[i]->damage += 5;
+		mobs[i]->speed += 1;
+		mobs[i]->accuracy += 1;
+	}
 }
