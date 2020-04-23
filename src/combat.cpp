@@ -2,7 +2,7 @@
 #include <random>
 #include <ctime>
 //#include "../include/combat.h"
-#include "game.h"
+#include "../include/game.h"
 
 using namespace std;
 

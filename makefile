@@ -1,18 +1,18 @@
-SRC= combat.cpp inventory.cpp play.cpp
+SRC= src/combat.cpp src/inventory.cpp src/play.cpp
 OBJ= $(SRC:.cpp=.o)
 CPP= g++
 CPPFLAGS= -Wall -Wextra -std=gnu++11
 
 all: game
 
-combat.o: combat.cpp combat.h
-	$(CPP) $(CPPFLAGS) -c -o $@ combat.cpp
+obj/combat.o: src/combat.cpp include/combat.h
+	$(CPP) $(CPPFLAGS) -c -o $@ -Iinclude src/combat.cpp
 	
-play.o: play.cpp game.h
-	$(CPP) $(CPPFLAGS) -c -o $@ play.cpp
+obj/play.o: src/play.cpp game.h
+	$(CPP) $(CPPFLAGS) -c -o $@ -Iinclude src/play.cpp
 
 game: $(OBJ)
 	$(CPP) $(CPPFLAGS) -o $@ $(OBJ)
 
 clean : 
-	rm *.o game
+	rm -f obj/* game
