@@ -12,7 +12,8 @@ int enemyTurn(Player *player, Enemy *enemy);
 
 //start combat, returns a bool that is false if you lose and true if you win
 bool combat(Player *player, Enemy *enemy) {
-
+	//variable to store enemy's health to return after fight
+	int eh = enemy->health;
 	//run the combat loop until either the enemies or the player is dead
 	while (true) {
 		//keeps the stats that can be changed by weapons so that we can return them to normal
@@ -30,6 +31,7 @@ bool combat(Player *player, Enemy *enemy) {
 			if (enemy->health <= 0) {
 				player->Agility = speed;
 				player->Defense = defence;
+				enemy->health = eh;
 				return true;	
 			}
 			
@@ -47,7 +49,7 @@ bool combat(Player *player, Enemy *enemy) {
 			
 			//deals damage to player based off their defense
 			player->Willpower -= enemyDamage*((8.-player->Defense)/8.);
-			if (player->Willpower <= 0) return false; //exit combat if you die
+			if (player->Willpower <= 0) {enemy->health = eh; return false;} //exit combat if you die
 			
 			//if your opponent does 0 damage, output that they missed
 			if (enemyDamage == 0) cout << "Your opponent's attack missed!\n";
@@ -58,7 +60,7 @@ bool combat(Player *player, Enemy *enemy) {
 		//the enemy goes first, the code is the same as the last block but with the order switched
 		else {
 			player->Willpower -= enemyDamage*((8.-player->Defense)/8.);
-			if (player->Willpower <= 0) return false;
+			if (player->Willpower <= 0) {enemy->health = eh; return false;}
 			if (enemyDamage == 0) cout << "Your opponents's attack missed!\n";
 			else cout << "Your opponent hit you for " << ceil(enemyDamage*((8.-player->Defense)/8.)) << " damage! You have " << player->Willpower << " Willpower left!\n";
 			
@@ -66,6 +68,7 @@ bool combat(Player *player, Enemy *enemy) {
 			if (enemy->health <= 0) {
 				player->Agility = speed;
 				player->Defense = defence;
+				enemy->health = eh;
 				return true;
 			}
 			if (playerDamage.first != 0) {

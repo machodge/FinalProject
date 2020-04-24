@@ -654,6 +654,7 @@ int main()
 			printf("You have level %d agility.\n", p->Agility);
 			printf("You have level %d accuracy.\n", p->Accuracy);
 			printf("You have level %d defense.\n\n", p->Defense);
+			//Outputs current objective 
 			if(gs < 7)
 				printf("Current Objective:\n");
 			if(gs == 0)
@@ -794,6 +795,7 @@ int main()
 				{
 					if(game_stage(gs))
 					{
+						//Final boss scene
 						if((i == 3)&&(j == 3)&&(gs == 5))
 						{
 							slow_print("\"Come on.\"", 55);
@@ -804,10 +806,13 @@ int main()
 							mobs[3]->accuracy += 5;
 							mobs[3]->damage += 20;
 						}
+						//Calls combat system and outputs message based off of wheter or not 
+						//you won
 						if(combat(p, renemy(mobs, gs)))
 						{
 							if(gs != 5)
 								slow_print("You survived the night terrors this time.\n\n", 30);
+							//Pre-end game scene
 							else if(((i == 3)||(i == 4))&&(j == 3)&&(gs == 5))
 							{
 								slow_print("This one was wearing a nametag.", 30);
@@ -820,6 +825,7 @@ int main()
 							else
 								slow_print("There's so much blood on your hands...\n\n", 30);
 						}
+						//Dictates what happens if you die at certain stages of the game
 						else
 						{
 							if(((i == 3)||(i == 4))&&(j == 3)&&(gs == 5))
@@ -854,6 +860,7 @@ int main()
 							}
 							i = 0;
 							j = 0;
+							//Changes the amount of health you get back depending on your death count
 							if(p->Death == 0)
 								p->Willpower = 50;
 							else if(p->Death == 1)
@@ -866,7 +873,7 @@ int main()
 				}
 			}
 		}
-	//Does nothing for improper input
+	//Does nothing for inproper input
 	}
 
 //Deletes all allocated memory to prevent memory leaks
@@ -986,8 +993,9 @@ void clean(vector<vector<Room *>> &f)
 /*Function to delete allocated memory*/
 void clean_m(vector<Enemy *> &mobs)
 {
-	size_t i;
+	size_t i;		//Variable to keep track of size
 
+//Iterates through all mobs freeing memory
 	for(i = 0; i < mobs.size(); i++)
 		delete mobs[i];
 }
@@ -1062,11 +1070,13 @@ bool game_stage(int gs)
 /*Function that returns a random enemy*/
 Enemy* renemy(vector<Enemy *> mobs, int gs)
 {
-	int r;
+	int r;	//Random variable
 
+//Seeds generator then gets a random number between 0 and 2
 	srand(time(NULL));
 	r = rand() % 3;
 
+//Returns a certain mob depending on the game stage
 	if(gs < 5)
 	{
 		slow_print(mobs[r]->type, 30);
@@ -1084,8 +1094,9 @@ Enemy* renemy(vector<Enemy *> mobs, int gs)
 /*Function to raise enemy stats*/
 void raise_stat(vector<Enemy *> &mobs)
 {
-	size_t i;
+	size_t i;		//Variable to keep track of size
 
+//Iterates through all mobs raising their stats
 	for(i = 0; i < mobs.size(); i++)
 	{
 		mobs[i]->health += 10;

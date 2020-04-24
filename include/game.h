@@ -4,8 +4,6 @@
 
 using namespace std;
 
-//bool combat(Player *player, Enemy *enemy);
-
 /*Player data structure to hold all data pertaining to 
  rooms*/
 struct Player
@@ -31,7 +29,9 @@ struct Player
   enemies*/
 struct Enemy 
 {
-    string type;
+    //String to hold enemy type
+	string type;
+	//Enemy stats
 	int health;
     int damage;
     int speed;
@@ -61,4 +61,4 @@ struct Room
     map<string, Room *> adj;        //Accessable points from room
 };
 
-bool combat(Player *player, Enemy *enemy);
+bool combat(Player *player, Enemy *enemy);		//Prototype that connects combat.cpp to play.cpp
