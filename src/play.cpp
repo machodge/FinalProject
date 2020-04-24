@@ -35,8 +35,6 @@ int main()
 
 //Allocating memory to the player
 	p = new Player;
-//Creates enemies
-	make_enemy(mobs);
 //Checks for saved games, error checks accordingly, then opens and reads from proper file
     printf("Welcome to Insomnia. (Press enter to continue)");
     cin.get();
@@ -101,27 +99,27 @@ int main()
 		if(cd == "p")
 		{
 			p->Accuracy += 1;
-			slow_print("You've been gifted paranoia, accuracy increased!\n\n", 30);
+			slow_print("You've been gifted paranoia; accuracy increased!\n\n", 30);
 		}
 		else if(cd == "f")
 		{
 			p->Agility += 1;
-			slow_print("You've been gifted fear, agility increased!\n\n", 30);
+			slow_print("You've been gifted fear; agility increased!\n\n", 30);
 		}
 		else if(cd == "d")
 		{
 			p->Strength += 1;
-			slow_print("You've been gifted delusion, strength increased!\n\n", 30);
+			slow_print("You've been gifted delusion; strength increased!\n\n", 30);
 		}
 		else if(cd == "c")
 		{
 			p->Courage += 1;
-			slow_print("You've been gifted courage, you can use this to increase your willpower(hp).\n\n", 30);
+			slow_print("You've been gifted courage; you can use this to increase your willpower(hp).\n\n", 30);
 		}
 		else if(cd == "s")
 		{
 			p->Defense += 1;
-			slow_print("You've been gifted stability, defense increased!\n\n", 30);
+			slow_print("You've been gifted stability; defense increased!\n\n", 30);
 		}
 		//First line of game
 		slow_print("You wake up in a white bed, it's still night out.\n\n", 30);
@@ -137,6 +135,8 @@ int main()
     printf("Type 'q' (Quit) to quit the game.\n");
     printf("Type 'o' (Options) to see these options again.\n\n");
 
+//Creates enemies
+    make_enemy(mobs, fin);
 //Makes rooms from read in file
 	read_in(f1, fin);
 	read_in(f2, fin);
@@ -226,6 +226,12 @@ int main()
 				gs++;
 				raise_stat(mobs);
 			}
+			else
+			{
+				i = 1;
+				j = 0;
+				printf("%s\n\n", f[i][j]->description.c_str());
+			}
 		}
 		//If user inputs an action
 		else if(f[i][j]->actions.find(line) != f[i][j]->actions.end())
@@ -310,7 +316,12 @@ int main()
 					}
 				}
 				else if((i == 1)&&(j == 4)&&(cf == 1)&&(!sit->second->check)&&(line == "Look at painting"))
-					slow_print("You found paranoia, accuracy increased!\n", 30);
+					slow_print("You found paranoia; accuracy increased!\n", 30);
+				else if((i == 5)&&(j == 6)&&(cf == 1)&&(line == "Sit Down"))
+				{
+					printf("(Press enter to get up)");
+					cin.get();
+				}
 				else if((i == 2)&&(j == 0)&&(cf == 1)&&(line == "Talk to the man"))
 				{
 					if(!sit->second->check)
@@ -326,7 +337,7 @@ int main()
 						cin.get();
 						slow_print("\"Find your truth.\"", 55);
 						cin.get();
-						slow_print("The man gives me a key, doctors office is now accessible.\n", 30);
+						slow_print("The man gives me a key; doctors office is now accessible.\n", 30);
 					}
 					else
 					{
@@ -387,7 +398,7 @@ int main()
 					printf("finding a way out of his room at night, during that time though he constantly fights the air and murmurs\n");
 					printf("to himself. Sometimes he will invade the other patient’s rooms, but he does not even see them, he\n");
 					printf("completely looks through them at something else. Of course, before day breaks, I find him, sedate him,\n");
-					printf("and take him back to his room, but sometimes I would find him passed out. I know what I am doing is widely\n");
+					printf("and take him back to his room, sometimes I would find him passed out. I know what I am doing is widely\n");
 					printf("considered malpractice, but I believe he is truly close to seeing past his delusions. I predict if he stays\n");
 					printf("on his current path he might come to peace with his demons and cure himself, so for now, I will just keep\n");
 					printf("observing him. One thing that continues to shock me, however, is the fact that he has enough courage to keep\n");
@@ -404,35 +415,39 @@ int main()
 					cin.get();
 				}
 				else if((i == 3)&&(j == 3)&&(cf == 1)&&(line == "Search Plant"))
-					slow_print("You found courage, you can use this to increase your willpower(hp).\n", 30);
+					slow_print("You found courage; you can use this to increase your willpower(hp).\n", 30);
 				else if((i == 3)&&(j == 4)&&(cf == 1)&&(line == "Take Shower"))
-					slow_print("You found courage, you can use this to increase your willpower(hp).\n", 30);
+					slow_print("You found courage; you can use this to increase your willpower(hp).\n", 30);
 				else if((i == 3)&&(j == 6)&&(cf == 1)&&(line == "Read Note"))
 				{
 					slow_print("The note reassures you.", 30);
 					cin.get();
-					slow_print("You found stability, defense increased!\n", 30);
+					slow_print("You found stability; defense increased!\n", 30);
 				}
 				else if((i == 3)&&(j == 7)&&(cf == 1)&&(line == "Search Stalls"))
-					slow_print("You found courage, you can use this to increase your willpower(hp).\n", 30);
+					slow_print("You found courage; you can use this to increase your willpower(hp).\n", 30);
 				else if((i == 5)&&(j == 4)&&(cf == 1)&&(line == "Turn off tv"))
-					slow_print("You found courage, you can use this to increase your willpower(hp).\n", 30);
+					slow_print("You found courage; you can use this to increase your willpower(hp).\n", 30);
 				else if((i == 5)&&(j == 5)&&(cf == 1)&&(line == "Talk"))
-					slow_print("You found courage, you can use this to increase your willpower(hp).\n", 30);
+					slow_print("You found courage; you can use this to increase your willpower(hp).\n", 30);
 				else if((i == 5)&&(j == 5)&&(cf == 1)&&(line == "Talk?"))
-					slow_print("You found delusion, strength increased!\n", 30);
+					slow_print("You found delusion; strength increased!\n", 30);
 				else if((i == 0)&&(j == 4)&&(cf == 2)&&(line == "Check Cabinets"))
 				{
-					slow_print("You found a key, kitchen is now accessible.", 30);
+					slow_print("You found a key; kitchen is now accessible.", 30);
 					cin.get();
 					slow_print("\"You know what?\"", 40);
 					cin.get();
 					slow_print("\"I actually am hungry, I think I'll do just that!\"\n", 40);
 				}
 				else if((i == 0)&&(j == 6)&&(cf == 2)&&(line == "Sit at table"))
-					slow_print("You found courage, you can use this to increase your willpower(hp).\n", 30);
+					slow_print("You found courage; you can use this to increase your willpower(hp).\n", 30);
 				else if((i == 1)&&(j == 0)&&(cf == 2)&&(line == "Sit in chair"))
-					slow_print("You found stability, defense increased!\n", 30);
+				{
+					slow_print("You found stability; defense increased!\n", 30);
+					printf("(Press enter to get up)");
+					cin.get();
+				}
 				else if((i == 1)&&(j == 6)&&(cf == 2)&&(line == "Check out menu"))
 				{
 					slow_print("\"Today's menu is\"", 40);
@@ -441,12 +456,14 @@ int main()
 					cin.get();
 					slow_print("\"Dear god...\"", 40);
 					cin.get();
-					slow_print("You found fear, agility increased!\n", 30);
+					slow_print("You found fear; agility increased!\n", 30);
 				}
 				else if((i == 3)&&(j == 0)&&(cf == 2)&&(line == "Search Drawer 1"))
 				{
 					gs++;
 					raise_stat(mobs);
+					slow_print("The morgue...", 55);
+					cin.get();
 				}
 				else if((i == 3)&&(j == 0)&&(cf == 2)&&(line == "Search Drawer 2"))
 				{
@@ -460,7 +477,7 @@ int main()
 				}
 				else if((i == 3)&&(j == 7)&&(cf == 2)&&(line == "Open body drawer"))
 				{
-					slow_print("You found delusion, strength increased!", 30);
+					slow_print("You found delusion; strength increased!", 30);
 					cin.get();
 					slow_print("...", 100);
 					cin.get();
@@ -487,7 +504,7 @@ int main()
 					raise_stat(mobs);
 				}
 				else if((i == 5)&&(j == 7)&&(cf == 2)&&(line == "Look at table"))
-					slow_print("You found fear, agility increased.\n",30);
+					slow_print("You found fear; agility increased.\n",30);
 				else if((i == 5)&&(j == 7)&&(cf == 2)&&(line == "Look at table!")&&(!sit->second->check))
 				{
 					slow_print("She's holding a torn diary page.", 30);
@@ -610,11 +627,11 @@ int main()
 				{
 					//Checks if player has courage
 					if(p->Courage == 0)
-						printf("You don't have any courage.\n");
+						printf("\nYou don't have any courage.\n");
 					//If player has courage, heals
 					else
 					{
-						printf("You look at a picture of your family. Willpower(hp) replenished!\n");
+						printf("\nYou look at a picture of your family. Willpower(hp) replenished!\n");
 						p->Willpower = 100;
 						p->Courage--;
 					}
@@ -637,6 +654,22 @@ int main()
 			printf("You have level %d agility.\n", p->Agility);
 			printf("You have level %d accuracy.\n", p->Accuracy);
 			printf("You have level %d defense.\n\n", p->Defense);
+			if(gs < 7)
+				printf("Current Objective:\n");
+			if(gs == 0)
+				printf("Search for clues about your situation.\n\n");
+			else if(gs == 1)
+				printf("Search for clues in room 204.\n\n");
+			else if(gs == 2)
+				printf("Search for clues at the reception desk.\n\n");
+			else if(gs == 3)
+				printf("Investigate the morgue.\n\n");
+			else if(gs == 4)
+				printf("Search for clues in room 202.\n\n");
+			else if(gs == 5)
+				printf("Cut your way to the doctor's office.\n\n");
+			else if(gs == 6)
+				printf("Find your truth in the doctor's office.\n\n");
 			printf("Inventory:\n");
 			printf("%d Courage\n", p->Courage);
 			if(p->BoneSaw)
@@ -654,7 +687,7 @@ int main()
 		//Saves game then outputs wheter or not save failed
 		else if(line == "S")
 		{
-			if(Save(i, j, gs, cf, d, r, f1, f2, p))
+			if(Save(i, j, gs, cf, d, r, f1, f2, p, mobs))
 				printf("Game Saved.\n");
 			else
 				printf("Save Failed.\n");
@@ -710,6 +743,11 @@ int main()
 					slow_print("\"It feels like I'm being followed.\"\n\n", 40);
 					d++;
 				}
+				else if((i == 1)&&(j == 0)&&(gs == 2)&&(d == 2))
+				{
+					slow_print("\"This building seems familiar... There should be a reception desk around here.\"\n\n",40);
+					d++;
+				}
 				else if((i == 1)&&(j == 7)&&(gs == 0))
 				{
 					sit = f1[0][7]->actions.find("Search Dresser");
@@ -762,17 +800,18 @@ int main()
 							cin.get();
 							slow_print("\"Find your truth.\"", 55);
 							cin.get();
-							mobs[3]->health += 30;
+							mobs[3]->health += 70;
 							mobs[3]->accuracy += 5;
-							mobs[3]->damage += 10;
+							mobs[3]->damage += 20;
 						}
 						if(combat(p, renemy(mobs, gs)))
 						{
 							if(gs != 5)
 								slow_print("You survived the night terrors this time.\n\n", 30);
-							else if((i == 3)&&(j == 3)&&(gs == 5))
+							else if(((i == 3)||(i == 4))&&(j == 3)&&(gs == 5))
 							{
 								slow_print("This one was wearing a nametag.", 30);
+								cin.get();
 								cin.get();
 								slow_print("\"Dr. Graham.\"", 30);
 								cin.get();
@@ -783,11 +822,11 @@ int main()
 						}
 						else
 						{
-							if((i == 3)&&(j == 3)&&(gs == 5))
+							if(((i == 3)||(i == 4))&&(j == 3)&&(gs == 5))
 							{
-								mobs[3]->health -= 30;
+								mobs[3]->health -= 70;
 								mobs[3]->accuracy -= 5;
-								mobs[3]->damage -= 10;
+								mobs[3]->damage -= 20;
 							}
 							slow_print("Willpower deplenished, you can't go on.", 30);
 							cin.get();
@@ -1031,11 +1070,13 @@ Enemy* renemy(vector<Enemy *> mobs, int gs)
 	if(gs < 5)
 	{
 		slow_print(mobs[r]->type, 30);
+		printf("\n");
 		return mobs[r];
 	}
 	else
 	{
 		slow_print(mobs[3]->type, 30);
+		printf("\n");
 		return mobs[3];
 	}
 }
