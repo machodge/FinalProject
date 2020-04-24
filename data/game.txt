@@ -1,5 +1,13 @@
 0 1 0 0 0 -1
 0 100 0 0 0 0 0 0 0 0 0 0
+A small girl with a crushed windpipe approaches you.
+70 5 0 90
+A woman with a hole in her head approaches you.
+60 10 0 85
+An unrecognizable monster approaches you.
+50 15 0 80
+A man in white approaches you.
+60 10 0 90
 1 1 S 2
 0 8 Search-Dresser Key 
 You find a key with a note attached to it.
@@ -397,7 +405,7 @@ You are in an open area near the morgue.
 You open the drawer to see your wife, her head bashed in.
 0 -1 Look-at-room None
 The room is small with only two body trays...
-Morgue: The room reeks of rotting flesh and the back light it out. The wall has body trays and there's an autopsy table in the back.
+Morgue: The room reeks of rotting flesh and some of the lights are out. The wall has body trays and there's an autopsy table in the back...
 1 2 N S 1
 0 -1 Sit-in-chair None
 "I'm not tired, thank you though."
@@ -465,7 +473,7 @@ None
 0 1 N 1
 0 -1 Search-Room Delusion-Of-Grandeur
 You found the Delusion of Grandeur, an impenetrable bubble where those things can't touch you. This weapon has high defense, small agility, and medium strength.
-Isolation Room 1: The room is completely padded. It feels safe.
+Isolation Room 3: The room is completely padded. It feels safe.
 1 1 N 2
 0 -1 Look-at-table Fear
 "No!"

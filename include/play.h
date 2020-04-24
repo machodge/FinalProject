@@ -1,5 +1,6 @@
 #include<algorithm>
 #include<iostream>
+#include<sstream>
 #include<fstream>
 #include<string>
 #include<thread>
@@ -11,7 +12,7 @@ using std::this_thread::sleep_for;
 using std::chrono::milliseconds;
 
 /*Function to save current game state*/
-bool Save(int i, int j, int gs, int cf, int d, int r, vector<vector<Room *>> f1, vector<vector<Room *>> f2, Player *p)
+bool Save(int i, int j, int gs, int cf, int d, int r, vector<vector<Room *>> f1, vector<vector<Room *>> f2, Player *p, vector<Enemy *> mobs)
 {
 	size_t k;								//Variable for formatting
 	string line;							//String to format data
@@ -49,6 +50,14 @@ bool Save(int i, int j, int gs, int cf, int d, int r, vector<vector<Room *>> f1,
 		fout << "1\n";
 	else
 		fout << "0\n";
+	for(col = 0; col <= 3; col++)
+	{
+		fout << mobs[col]->type << "\n";
+		fout << mobs[col]->health << " " 
+			 << mobs[col]->damage << " "
+			 << mobs[col]->speed << " "
+			 << mobs[col]->accuracy << "\n";
+	}
 	for(fc = 0; fc <= 1; fc++)
 	{
 		if(fc == 0)
@@ -103,46 +112,21 @@ void slow_print(const string& message, unsigned int millis_per_char)
     }
 }
 
-void make_enemy(vector<Enemy *> &mobs)
+void make_enemy(vector<Enemy *> &mobs, ifstream &fin)
 {
 	int i;
 	Enemy *e;
+	string line;
+	stringstream ss;
 
 	for(i = 0; i <= 3; i++)
 	{
 		e = new Enemy;
-		if(i == 0)
-		{
-			e->type = "A small girl with a crushed windpipe approaches you.\n";
-			e->health = 70;
-			e->damage = 5;
-			e->speed = 0;
-			e->accuracy = 90;
-		}
-		else if(i == 1)
-		{
-			e->type = "A woman with a hole in her head approaches you.\n";
-			e->health = 60;
-			e->damage = 10;
-			e->speed = 0;
-			e->accuracy = 85;
-		}
-		else if(i == 2)
-		{
-			e->type = "An unrecognizable monster approaches you.\n";
-			e->health = 50;
-			e->damage = 15;
-			e->speed = 0;
-			e->accuracy = 80;
-		}
-		else
-		{
-			e->type = "A man in white approaches you.\n";
-			e->health = 60;
-			e->damage = 10;
-			e->speed = 0;
-			e->accuracy = 90;
-		}
+		getline(fin, e->type);
+		getline(fin, line);
+		ss.clear();
+		ss.str(line);
+		ss >> e->health >> e->damage >> e->speed >> e->accuracy;
 		mobs.push_back(e);
 	}
 }

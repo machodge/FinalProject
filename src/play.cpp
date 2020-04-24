@@ -35,8 +35,6 @@ int main()
 
 //Allocating memory to the player
 	p = new Player;
-//Creates enemies
-	make_enemy(mobs);
 //Checks for saved games, error checks accordingly, then opens and reads from proper file
     printf("Welcome to Insomnia. (Press enter to continue)");
     cin.get();
@@ -137,6 +135,8 @@ int main()
     printf("Type 'q' (Quit) to quit the game.\n");
     printf("Type 'o' (Options) to see these options again.\n\n");
 
+//Creates enemies
+    make_enemy(mobs, fin);
 //Makes rooms from read in file
 	read_in(f1, fin);
 	read_in(f2, fin);
@@ -225,6 +225,12 @@ int main()
 				j = 0;
 				gs++;
 				raise_stat(mobs);
+			}
+			else
+			{
+				i = 1;
+				j = 0;
+				printf("%s\n\n", f[i][j]->description.c_str());
 			}
 		}
 		//If user inputs an action
@@ -387,7 +393,7 @@ int main()
 					printf("finding a way out of his room at night, during that time though he constantly fights the air and murmurs\n");
 					printf("to himself. Sometimes he will invade the other patient’s rooms, but he does not even see them, he\n");
 					printf("completely looks through them at something else. Of course, before day breaks, I find him, sedate him,\n");
-					printf("and take him back to his room, but sometimes I would find him passed out. I know what I am doing is widely\n");
+					printf("and take him back to his room, sometimes I would find him passed out. I know what I am doing is widely\n");
 					printf("considered malpractice, but I believe he is truly close to seeing past his delusions. I predict if he stays\n");
 					printf("on his current path he might come to peace with his demons and cure himself, so for now, I will just keep\n");
 					printf("observing him. One thing that continues to shock me, however, is the fact that he has enough courage to keep\n");
@@ -404,9 +410,9 @@ int main()
 					cin.get();
 				}
 				else if((i == 3)&&(j == 3)&&(cf == 1)&&(line == "Search Plant"))
-					slow_print("You found courage, you can use this to increase your willpower(hp).\n", 30);
+					slow_print("You found courage; you can use this to increase your willpower(hp).\n", 30);
 				else if((i == 3)&&(j == 4)&&(cf == 1)&&(line == "Take Shower"))
-					slow_print("You found courage, you can use this to increase your willpower(hp).\n", 30);
+					slow_print("You found courage; you can use this to increase your willpower(hp).\n", 30);
 				else if((i == 3)&&(j == 6)&&(cf == 1)&&(line == "Read Note"))
 				{
 					slow_print("The note reassures you.", 30);
@@ -612,11 +618,11 @@ int main()
 				{
 					//Checks if player has courage
 					if(p->Courage == 0)
-						printf("You don't have any courage.\n");
+						printf("\nYou don't have any courage.\n");
 					//If player has courage, heals
 					else
 					{
-						printf("You look at a picture of your family. Willpower(hp) replenished!\n");
+						printf("\nYou look at a picture of your family. Willpower(hp) replenished!\n");
 						p->Willpower = 100;
 						p->Courage--;
 					}
@@ -672,7 +678,7 @@ int main()
 		//Saves game then outputs wheter or not save failed
 		else if(line == "S")
 		{
-			if(Save(i, j, gs, cf, d, r, f1, f2, p))
+			if(Save(i, j, gs, cf, d, r, f1, f2, p, mobs))
 				printf("Game Saved.\n");
 			else
 				printf("Save Failed.\n");
@@ -785,9 +791,9 @@ int main()
 							cin.get();
 							slow_print("\"Find your truth.\"", 55);
 							cin.get();
-							mobs[3]->health += 30;
+							mobs[3]->health += 70;
 							mobs[3]->accuracy += 5;
-							mobs[3]->damage += 10;
+							mobs[3]->damage += 20;
 						}
 						if(combat(p, renemy(mobs, gs)))
 						{
@@ -796,6 +802,7 @@ int main()
 							else if(((i == 3)||(i == 4))&&(j == 3)&&(gs == 5))
 							{
 								slow_print("This one was wearing a nametag.", 30);
+								cin.get();
 								cin.get();
 								slow_print("\"Dr. Graham.\"", 30);
 								cin.get();
@@ -808,9 +815,9 @@ int main()
 						{
 							if(((i == 3)||(i == 4))&&(j == 3)&&(gs == 5))
 							{
-								mobs[3]->health -= 30;
+								mobs[3]->health -= 70;
 								mobs[3]->accuracy -= 5;
-								mobs[3]->damage -= 10;
+								mobs[3]->damage -= 20;
 							}
 							slow_print("Willpower deplenished, you can't go on.", 30);
 							cin.get();
