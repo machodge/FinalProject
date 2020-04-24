@@ -317,6 +317,11 @@ int main()
 				}
 				else if((i == 1)&&(j == 4)&&(cf == 1)&&(!sit->second->check)&&(line == "Look at painting"))
 					slow_print("You found paranoia, accuracy increased!\n", 30);
+				else if((i == 5)&&(j == 6)&&(cf == 1)&&(line == "Sit Down"))
+				{
+					printf("(Press enter to get up)");
+					cin.get();
+				}
 				else if((i == 2)&&(j == 0)&&(cf == 1)&&(line == "Talk to the man"))
 				{
 					if(!sit->second->check)
@@ -1061,11 +1066,13 @@ Enemy* renemy(vector<Enemy *> mobs, int gs)
 	if(gs < 5)
 	{
 		slow_print(mobs[r]->type, 30);
+		printf("\n");
 		return mobs[r];
 	}
 	else
 	{
 		slow_print(mobs[3]->type, 30);
+		printf("\n");
 		return mobs[3];
 	}
 }
