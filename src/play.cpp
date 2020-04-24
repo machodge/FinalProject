@@ -99,27 +99,27 @@ int main()
 		if(cd == "p")
 		{
 			p->Accuracy += 1;
-			slow_print("You've been gifted paranoia, accuracy increased!\n\n", 30);
+			slow_print("You've been gifted paranoia; accuracy increased!\n\n", 30);
 		}
 		else if(cd == "f")
 		{
 			p->Agility += 1;
-			slow_print("You've been gifted fear, agility increased!\n\n", 30);
+			slow_print("You've been gifted fear; agility increased!\n\n", 30);
 		}
 		else if(cd == "d")
 		{
 			p->Strength += 1;
-			slow_print("You've been gifted delusion, strength increased!\n\n", 30);
+			slow_print("You've been gifted delusion; strength increased!\n\n", 30);
 		}
 		else if(cd == "c")
 		{
 			p->Courage += 1;
-			slow_print("You've been gifted courage, you can use this to increase your willpower(hp).\n\n", 30);
+			slow_print("You've been gifted courage; you can use this to increase your willpower(hp).\n\n", 30);
 		}
 		else if(cd == "s")
 		{
 			p->Defense += 1;
-			slow_print("You've been gifted stability, defense increased!\n\n", 30);
+			slow_print("You've been gifted stability; defense increased!\n\n", 30);
 		}
 		//First line of game
 		slow_print("You wake up in a white bed, it's still night out.\n\n", 30);
@@ -443,7 +443,11 @@ int main()
 				else if((i == 0)&&(j == 6)&&(cf == 2)&&(line == "Sit at table"))
 					slow_print("You found courage; you can use this to increase your willpower(hp).\n", 30);
 				else if((i == 1)&&(j == 0)&&(cf == 2)&&(line == "Sit in chair"))
+				{
 					slow_print("You found stability; defense increased!\n", 30);
+					printf("(Press enter to get up)");
+					cin.get();
+				}
 				else if((i == 1)&&(j == 6)&&(cf == 2)&&(line == "Check out menu"))
 				{
 					slow_print("\"Today's menu is\"", 40);
@@ -741,7 +745,7 @@ int main()
 				}
 				else if((i == 1)&&(j == 0)&&(gs == 2)&&(d == 2))
 				{
-					slow_print("\"The reception desk should have more clues.\"\n\n",40);
+					slow_print("\"This building seems familiar... There should be a reception desk around here.\"\n\n",40);
 					d++;
 				}
 				else if((i == 1)&&(j == 7)&&(gs == 0))
