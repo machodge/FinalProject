@@ -91,7 +91,7 @@ pair<int, bool> playerTurn(Player *player) {
 		printf("\n");
 
 		if (action == 1) {
-			if (player->DOG || player->BoneSaw || player->Scalpel || player->Scythe) {
+			if (player->DOG || player->BoneSaw || player->Scalpel || player->Scythe || player->Knife) {
 				counter = 1;
 				cout << "What weapon will you use?\n";
 				if (player->BoneSaw) {
@@ -112,6 +112,7 @@ pair<int, bool> playerTurn(Player *player) {
 				if (player->Scalpel) {
 					cout << counter << ") Old Spaniard's Scalpel: Accuracy is " << floor(50 + ((player->Accuracy/5.) * 25.)) << "%, Damage is " << ceil(25*((player->Strength+10.)/10.)) << ", Increased Agility\n";
 					weapons[counter] = "Scalpel";
+					counter++;
 				}
 				if (player->Knife) {
 					cout << counter << ") Knife...\n";
@@ -212,6 +213,10 @@ int enemyTurn(Player *player, Enemy *enemy) {
 	return 0;
 }
 
+//int main()
+//{
+//	return 0;
+//}
 
 /*int main() {
 	Player *player = new Player;
