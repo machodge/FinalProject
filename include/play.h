@@ -112,13 +112,15 @@ void slow_print(const string& message, unsigned int millis_per_char)
     }
 }
 
+/*Function to read enemy data from file*/
 void make_enemy(vector<Enemy *> &mobs, ifstream &fin)
 {
-	int i;
-	Enemy *e;
-	string line;
-	stringstream ss;
+	int i;				//Int to iterate through number of enemies
+	Enemy *e;			//Tmp pointer to enemy
+	string line;		//Line to pull in data
+	stringstream ss;	//Stringstream to extract data
 
+//Loops four times and pulls in all enemy data from given file
 	for(i = 0; i <= 3; i++)
 	{
 		e = new Enemy;
