@@ -1,4 +1,3 @@
-//Code for the combat system
 #include <iostream>
 #include <random>
 #include <ctime>
@@ -10,57 +9,40 @@ pair<int, bool> playerTurn(Player *player);
 
 int enemyTurn(Player *player, Enemy *enemy);
 
-//start combat, returns a bool that is false if you lose and true if you win
+//make combat a bool that will return false once it is over.
 bool combat(Player *player, Enemy *enemy) {
-	//variable to store enemy's health to return after fight
 	int eh = enemy->health;
 	//run the combat loop until either the enemies or the player is dead
 	while (true) {
-		//keeps the stats that can be changed by weapons so that we can return them to normal
 		int speed = player->Agility;
 		int defence = player->Defense;
-		int enemyDamage = enemyTurn(player, enemy); //gets the damage the enemy will do
-		pair<int, bool> playerDamage = playerTurn(player); //gets the damage the player will do
-		
-		//if the players agility is higher than the enemy's speed they go first
+		int enemyDamage = enemyTurn(player, enemy);
+		pair<int, bool> playerDamage = playerTurn(player);
 		if (player->Agility >= enemy->speed) {
-			//deals damage to the enemy with strength multiplyer
-			enemy->health -= playerDamage.first*((player->Strength+10.)/10.); 
-			
-			//if the enemy dies exit combat
+			enemy->health -= playerDamage.first*((player->Strength+10.)/10.);
 			if (enemy->health <= 0) {
 				player->Agility = speed;
 				player->Defense = defence;
 				enemy->health = eh;
-				return true;	
+				return true;
+				
 			}
-			
-			//if damage is not 0, print how much damage was delt
 			if (playerDamage.first != 0) {
-				//if its a crit, print that you landed a crit
 				if (playerDamage.second) {
 					cout << "You landed a critical hit for " << ceil(playerDamage.first*((player->Strength+10.)/10.)) << " damage! Your opponent now has " << enemy->health << " health remaining!\n";
 				}
-				//print you landed a non-critical hit
 				else cout << "You landed a hit for " << ceil(playerDamage.first*((player->Strength+10.)/10.)) << " damage! Your opponent now has " << enemy->health << " health remaining!\n";
 			}
-			//prints you missed if you do 0 damage and don't heal
 			else if (!playerDamage.second) cout << "Your attack missed!\n";
-			
-			//deals damage to player based off their defense
 			player->Willpower -= enemyDamage*((8.-player->Defense)/8.);
-			if (player->Willpower <= 0) {enemy->health = eh; return false;} //exit combat if you die
-			
-			//if your opponent does 0 damage, output that they missed
+			if (player->Willpower <= 0){enemy->health = eh; return false;}
 			if (enemyDamage == 0) cout << "Your opponent's attack missed!\n";
-			//print the amount of damage you took
 			else cout << "Your opponent hit you for " << ceil(enemyDamage*((8.-player->Defense)/8.)) << " damage! You have " << player->Willpower << " Willpower left!\n";
 				
 		}
-		//the enemy goes first, the code is the same as the last block but with the order switched
 		else {
 			player->Willpower -= enemyDamage*((8.-player->Defense)/8.);
-			if (player->Willpower <= 0) {enemy->health = eh; return false;}
+			if (player->Willpower <= 0){enemy->health = eh; return false;}
 			if (enemyDamage == 0) cout << "Your opponents's attack missed!\n";
 			else cout << "Your opponent hit you for " << ceil(enemyDamage*((8.-player->Defense)/8.)) << " damage! You have " << player->Willpower << " Willpower left!\n";
 			
@@ -79,29 +61,35 @@ bool combat(Player *player, Enemy *enemy) {
 			}
 			else if (!playerDamage.second) cout << "Your attack missed!\n";
 		}
-		//returns players stats to baseline after the turn
 		player->Agility = speed;
 		player->Defense = defence;
 	}
 }
 
-//function for players turn returns a pair where the first is damage and the second is a bool that is true if you get
-//a crit, an output of {0, true} represents a heal.
 pair<int, bool> playerTurn(Player *player) {
 
 	int action, counter, weaponChoice;
 	string weapons[6];
 	srand(time(NULL));
 
-	//outputs possible actions
 	cout << "Player's turn\n";
-	cout << "1) Attack\n2) Heal (" << player->Courage << " in inventory)\n";
-	cout << "What will you do?\n";
+	cout << "1) Attack\n2) Replenish Willpower(hp) (" << player->Courage << " in inventory)\n";
+	cout << "What will you do?\n\n";
 	
 	while (true) {
+		
 		cin >> action;
+		
+		if((action != 1)&&(action != 2))
+		{
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			cout << "Invalid action, please try again...\n\n";
+			continue;
+		}
+		
+		printf("\n");
 
-		//if they attack, build the players weapon list and print what weapons are avalable and what their stats are
 		if (action == 1) {
 			if (player->DOG || player->BoneSaw || player->Scalpel || player->Scythe || player->Knife) {
 				counter = 1;
@@ -127,25 +115,25 @@ pair<int, bool> playerTurn(Player *player) {
 					counter++;
 				}
 				if (player->Knife) {
-					cout << counter << ") The Knife...\n";
+					cout << counter << ") Knife...\n";
 					weapons[counter] = "Knife";
 				}
-				//read in the players weapon choice until they pick a valid weapon
 				while(true) {
 					cin >> weaponChoice;
-					if (weaponChoice > 0 && weaponChoice < 5 && weapons[weaponChoice] != "") {
-						cin.clear();
-						break;
+					if (weaponChoice > 0 && weaponChoice < 5 && weapons[weaponChoice] != "") break;
+					else
+					{
+            			cin.clear();
+            			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            			cout << "Invalid action, please try again...\n\n";
+            			continue;
 					}
-					else cout << "Invalid action, please try again\n";
 				}
-				
+				printf("\n");
 				if (weapons[weaponChoice] == "Saw") {
-					player->Agility = 0; //reduces players agility while using this weapon
-					int hitChance = 50 + ((player->Accuracy/5.) * 35.); //calculates hit chance based on accuracy
-					//rolls to see if a hit
+					player->Agility = 0;
+					int hitChance = 50 + ((player->Accuracy/5.) * 35.);
 					if ((rand()%100) <= hitChance) {
-						//rolls to see if a crit
 						if ((rand()%100) < 10) {
 							return make_pair<int, bool>(60, true);
 						}
@@ -192,7 +180,6 @@ pair<int, bool> playerTurn(Player *player) {
 					return make_pair<int, bool>(50, false);
 				}
 			}
-			//if the player has no weapons, use fists automatically
 			else {
 				int hitChance = 60 + ((player->Accuracy/5.) * 25.);
 				if ((rand()%100) <= hitChance) {
@@ -205,39 +192,32 @@ pair<int, bool> playerTurn(Player *player) {
 			}
 		}
 
-		//heals the player to 100% health, this will always be done before enemy attacks
 		else if (action == 2) {
 			if (player->Courage > 0) {
-				cout << "You Willpower has been restored!\n";
+				cout << "You look at a picture of your family. Willpower(hp) replenished!\n";
 				player->Willpower = 100;
 				player->Courage--;
 				return make_pair<int, bool>(0, true);
 			}
-			//if the player has no courage in their inventory then they can't heal
-			cout << "You have no Courage, please try another option...\n";
+			cout << "You have no Courage, please try another option...\n\n";
 			continue;
-		}
-
-		//if the player does an invalid action print this
-		else {
-			cout << "invalid action, please try again...\n";
-			cin.clear();
 		}
 	}
 }
 
-//the enemy turn is pretty simple since they have only one attack
 int enemyTurn(Player *player, Enemy *enemy) {
-	//calculates hit chance based on the enemys accuracy and the players agility
 	int hitChance = enemy->accuracy - ((player->Agility/5.) * 40.);
-	//rolls for a hit, otherwise return 0
 	if ((rand()%100) <= hitChance) {
 		return enemy->damage;
 	}
 	return 0;
 }
 
-//main function for debuging combat
+//int main()
+//{
+//	return 0;
+//}
+
 /*int main() {
 	Player *player = new Player;
 	Enemy *enemy = new Enemy; 
