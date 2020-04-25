@@ -11,7 +11,7 @@ and to the play the game type './game'.
 The game instructions are listed when you start the game but will
 also be listed here. You preform the listed instructions by typing 
 them into the terminal and pressing enter. Taking inputs upon key 
-press was an explored option but it required uncompatable libraries.
+press was an explored option but it required incompatible libraries.
 
 The are no known bugs besides the fact that there is no real sense of 
 player orientation in the game. What's left and right will always be what's 
@@ -20,7 +20,7 @@ rid of most of them in testing.
 
 Controls:
 Type any of the cardinal directions to move.
-Type 'i' to see info such a player stats, inventory, and current objective.
+Type 'i' to see info such as player stats, inventory, and current objective.
 To perform an action type 'a' to see which actions are possible then type the action you want to do.
 Type 'h' to heal. 
 Type 'S' to save game.
