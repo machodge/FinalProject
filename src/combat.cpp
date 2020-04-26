@@ -244,11 +244,7 @@ int enemyTurn(Player *player, Enemy *enemy) {
 	return 0;
 }
 
-//int main()
-//{
-//	return 0;
-//}
-
+//Combat Debug
 /*int main() {
 	Player *player = new Player;
 	Enemy *enemy = new Enemy; 
