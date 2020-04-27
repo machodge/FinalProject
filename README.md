@@ -5,10 +5,11 @@ Jack Hutchins
 Thomas Leonard
 Nicholas Hodge
 
-This program has a glitch when you first clone it. The combat system it pulls from is an older version
-at first so you have to re-save the new version. Once you're in the main folder type 'vim src/combat.cpp'
-and when you get to that folder type ':wq'. After that and you're back to the main folder complie with 'make' 
-and to the play the game type './game'.
+This program has a glitch when you first clone it. The combat system and game system it pulls from is an older 
+version at first so you have to re-save the new versions. Once you're in the main folder type 'vim src/combat.cpp'
+and when you get to that folder type ':wq' then do it again for 'vim src/play.cpp', typing ':wq' after you 
+enter that folder aswell. After that and you're back to the main folder complie with 'make' and to the play 
+the game type './game'.
 
 The game instructions are listed when you start the game but will
 also be listed here. You preform the listed instructions by typing 
